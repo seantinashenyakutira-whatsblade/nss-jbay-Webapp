@@ -1,0 +1,23 @@
+{
+  "name": "National Secure Storage - Jeffrey's Bay",
+  "short_name": "NSS JBay",
+  "description": "Secure, affordable self-storage rentals in Jeffrey's Bay, South Africa.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0A",
+  "theme_color": "#D4006A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/images/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "utilities"],
+  "lang": "en-ZA",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false
+}

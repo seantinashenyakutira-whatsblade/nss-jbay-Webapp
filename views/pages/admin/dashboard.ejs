@@ -1,0 +1,63 @@
+<div class="admin-layout" data-animate="fade-in">
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar__badge">ADMIN</div>
+    <a href="/admin" class="admin-sidebar__link active"><svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-layout-dashboard"/></svg> Dashboard</a>
+    <a href="/admin/units" class="admin-sidebar__link"><svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-building-2"/></svg> Manage Units</a>
+    <a href="/admin/bookings" class="admin-sidebar__link"><svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-calendar"/></svg> Manage Bookings</a>
+    <a href="/admin/payments" class="admin-sidebar__link"><svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-credit-card"/></svg> Payments</a>
+    <a href="/admin/customers" class="admin-sidebar__link"><svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-user"/></svg> Customers</a>
+    <a href="/admin/pricing" class="admin-sidebar__link"><svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-dollar-sign"/></svg> Pricing</a>
+    <a href="/admin/settings" class="admin-sidebar__link"><svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-settings"/></svg> Settings</a>
+    <div class="admin-sidebar__divider"></div>
+    <a href="/" class="admin-sidebar__link admin-sidebar__link--back"><svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-arrow-left"/></svg> View Site</a>
+  </aside>
+
+  <div class="admin-main">
+    <div class="flex items-center justify-between gap-4 mb-8">
+      <div>
+        <h1>Dashboard</h1>
+        <p class="text-sm text-muted">Facility overview</p>
+      </div>
+      <span class="text-mono text-dim text-xs"><%= new Date().toLocaleDateString('en-ZA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-card__value"><%= typeof stats !== 'undefined' ? stats.totalBookings || 0 : 0 %></div><div class="stat-card__label">Total Bookings</div></div>
+      <div class="stat-card"><div class="stat-card__value">R <%= typeof stats !== 'undefined' ? Number(stats.monthlyRevenue || 0).toLocaleString('en-ZA') : '0' %></div><div class="stat-card__label">Monthly Revenue</div></div>
+      <div class="stat-card"><div class="stat-card__value"><%= typeof stats !== 'undefined' ? stats.occupancy || 0 : 0 %>%</div><div class="stat-card__label">Occupancy Rate</div></div>
+      <div class="stat-card"><div class="stat-card__value" style="color:var(--clr-warning);"><%= typeof stats !== 'undefined' ? stats.pending || 0 : 0 %></div><div class="stat-card__label">Pending</div></div>
+    </div>
+
+    <div class="grid grid--2 mt-8">
+      <div class="card card--static">
+        <div class="card__body">
+          <h4 style="margin-bottom:16px;">Recent Bookings</h4>
+          <div class="table-wrap" style="border:none;">
+            <table>
+              <thead><tr><th>Ref</th><th>Customer</th><th>Status</th></tr></thead>
+              <tbody>
+                <% if (typeof recentBookings !== 'undefined' && recentBookings.length) { %>
+                  <% recentBookings.slice(0,10).forEach(function(b) { %>
+                  <tr><td class="text-mono"><%= b.reference %></td><td><%= b.profiles ? b.profiles.email : 'N/A' %></td><td><span class="badge badge--<%= b.status === 'active' ? 'success' : b.status === 'cancelled' ? 'error' : 'info' %>"><%= b.status.charAt(0).toUpperCase() + b.status.slice(1) %></span></td></tr>
+                  <% }); %>
+                <% } else { %>
+                  <tr><td colspan="3" class="text-center text-dim">No recent bookings</td></tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card card--static">
+        <div class="card__body">
+          <h4 style="margin-bottom:16px;">Quick Actions</h4>
+          <div class="flex flex-col gap-3">
+            <a href="/admin/add-unit" class="btn btn--outline btn--sm">Add New Unit</a>
+            <a href="/admin/bookings" class="btn btn--outline btn--sm">View All Bookings</a>
+            <a href="/admin/settings" class="btn btn--outline btn--sm">Update Settings</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

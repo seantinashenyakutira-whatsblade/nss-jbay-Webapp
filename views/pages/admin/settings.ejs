@@ -1,0 +1,84 @@
+<div class="admin-layout" data-animate="fade-in">
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar__badge">ADMIN</div>
+    <a href="/admin" class="admin-sidebar__link"><svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-layout-dashboard"/></svg> Dashboard</a>
+    <a href="/admin/units" class="admin-sidebar__link"><svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-building-2"/></svg> Manage Units</a>
+    <a href="/admin/bookings" class="admin-sidebar__link"><svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-calendar"/></svg> Manage Bookings</a>
+    <a href="/admin/payments" class="admin-sidebar__link"><svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-credit-card"/></svg> Payments</a>
+    <a href="/admin/customers" class="admin-sidebar__link"><svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-user"/></svg> Customers</a>
+    <a href="/admin/pricing" class="admin-sidebar__link"><svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-dollar-sign"/></svg> Pricing</a>
+    <a href="/admin/settings" class="admin-sidebar__link active"><svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-settings"/></svg> Settings</a>
+    <div class="admin-sidebar__divider"></div>
+    <a href="/" class="admin-sidebar__link admin-sidebar__link--back"><svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-arrow-left"/></svg> View Site</a>
+  </aside>
+
+  <div class="admin-main">
+    <div class="flex items-center justify-between gap-4 mb-8">
+      <div>
+        <h1>Settings</h1>
+        <p class="text-sm text-muted">Manage site-wide configuration</p>
+      </div>
+    </div>
+
+    <form action="/admin/settings" method="POST" style="max-width:640px;">
+      <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+      <div class="card card--static">
+        <div class="card__body">
+          <h4 style="margin-bottom:20px;">Business Information</h4>
+          <div class="form-group">
+            <label class="form-label" for="setBusinessName">Business Name</label>
+            <input type="text" id="setBusinessName" name="business_name" class="form-input" value="<%= typeof settings !== 'undefined' && settings ? settings.business_name : 'National Secure Storage' %>">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="setLocation">Location</label>
+            <input type="text" id="setLocation" name="location" class="form-input" value="<%= typeof settings !== 'undefined' && settings ? settings.location : "Jeffrey's Bay" %>">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="setAddress">Address</label>
+            <input type="text" id="setAddress" name="address" class="form-input" value="<%= typeof settings !== 'undefined' && settings ? settings.address : '' %>">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="setPhone1">Primary Phone</label>
+              <input type="tel" id="setPhone1" name="phone_primary" class="form-input" value="<%= typeof settings !== 'undefined' && settings ? settings.phone_primary : '' %>">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="setPhone2">Secondary Phone</label>
+              <input type="tel" id="setPhone2" name="phone_secondary" class="form-input" value="<%= typeof settings !== 'undefined' && settings ? settings.phone_secondary : '' %>">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="setEmail">Email</label>
+            <input type="email" id="setEmail" name="email" class="form-input" value="<%= typeof settings !== 'undefined' && settings ? settings.email : '' %>">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="setFacebook">Facebook URL</label>
+            <input type="url" id="setFacebook" name="facebook_url" class="form-input" value="<%= typeof settings !== 'undefined' && settings ? settings.facebook_url : '' %>">
+          </div>
+        </div>
+      </div>
+
+      <div class="card card--static mt-8">
+        <div class="card__body">
+          <h4 style="margin-bottom:20px;">Operating Hours</h4>
+          <% var days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']; %>
+          <% var dayLabels = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']; %>
+          <% for (var i = 0; i < days.length; i++) { %>
+          <div class="form-row" style="align-items:center;gap:12px;">
+            <div class="form-group" style="margin:0;">
+              <label class="form-label text-xs"><%= dayLabels[i] %></label>
+            </div>
+            <div class="form-group" style="margin:0;flex:1;">
+              <input type="text" class="form-input" style="padding:8px 12px;font-size:var(--text-sm);" name="hours_<%= days[i] %>" value="<%= typeof settings !== 'undefined' && settings && settings.operating_hours ? settings.operating_hours[days[i]] || '' : (i < 5 ? '08:00-17:00' : i === 5 ? '09:00-13:00' : 'closed') %>" <%= days[i] === 'sunday' ? 'disabled style="opacity:0.5;"' : '' %>>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="mt-8">
+        <button type="submit" class="btn btn--primary btn--lg">Save Settings</button>
+      </div>
+    </form>
+  </div>
+</div>

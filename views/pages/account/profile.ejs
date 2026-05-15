@@ -1,0 +1,90 @@
+<section class="page" data-animate="fade-in">
+  <div class="container">
+    <div class="account-layout">
+      <aside class="account-sidebar">
+        <nav aria-label="Account navigation">
+          <a href="/account" class="account-nav-link">Overview</a>
+          <a href="/account/bookings" class="account-nav-link">My Rentals</a>
+          <a href="/account/payments" class="account-nav-link">Payments</a>
+          <a href="/account/profile" class="account-nav-link active">Profile</a>
+        </nav>
+      </aside>
+
+      <div class="account-main">
+        <h1 class="page__title mb-8">My Profile</h1>
+
+        <div class="card card--static mb-8" style="max-width:640px;">
+          <div class="card__body">
+            <h4 style="margin-bottom:20px;">Personal Information</h4>
+            <form action="/account/profile" method="POST" id="profile-form">
+              <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label form-label--required" for="profileFirstName">First Name</label>
+                  <input type="text" id="profileFirstName" name="firstName" class="form-input" value="<%= typeof user !== 'undefined' && user ? (user.first_name || '') : '' %>" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label form-label--required" for="profileLastName">Last Name</label>
+                  <input type="text" id="profileLastName" name="lastName" class="form-input" value="<%= typeof user !== 'undefined' && user ? (user.last_name || '') : '' %>" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="profileEmail">Email</label>
+                <input type="email" id="profileEmail" class="form-input" value="<%= typeof user !== 'undefined' && user ? user.email : '' %>" disabled style="opacity:0.6;">
+                <span class="form-hint">Email cannot be changed</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="profilePhone">Phone</label>
+                <input type="tel" id="profilePhone" name="phone" class="form-input" value="<%= typeof user !== 'undefined' && user ? (user.phone || '') : '' %>" placeholder="063 546 1740">
+              </div>
+              <button type="submit" class="btn btn--primary">Save Changes</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="card card--static mb-8" style="max-width:640px;">
+          <div class="card__body">
+            <h4 style="margin-bottom:4px;">Change Password</h4>
+            <p class="text-sm text-muted mb-6">We'll send you a password reset link via email.</p>
+            <a href="/auth/forgot-password" class="btn btn--outline">Send Reset Link</a>
+          </div>
+        </div>
+
+        <div class="card card--static card--danger-zone" style="max-width:640px;">
+          <div class="card__body">
+            <h4 style="color:var(--clr-error);margin-bottom:4px;">Danger Zone</h4>
+            <p class="text-sm text-muted mb-4">Permanently delete your account and all associated data. This action cannot be undone.</p>
+            <button type="button" class="btn btn--danger btn--sm" id="delete-account-btn" data-user-email="<%= typeof user !== 'undefined' && user ? user.email : '' %>">Delete My Account</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="delete-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title" hidden>
+  <div class="modal" style="max-width:440px;">
+    <div class="modal__header">
+      <h3 class="modal__title" id="delete-modal-title">Delete Account</h3>
+      <button class="modal__close" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal__body">
+      <div style="background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.3);border-radius:var(--radius-sm);padding:var(--space-4);margin-bottom:var(--space-4);">
+        <p class="text-sm" style="color:var(--clr-error);font-weight:500;">Warning: This will permanently delete your account and all associated bookings and data.</p>
+      </div>
+      <p class="text-sm text-muted">To confirm, please type your email address:</p>
+      <p class="text-mono text-sm text-dim mt-1"><%= typeof user !== 'undefined' && user ? user.email : '' %></p>
+      <div class="form-group mt-4">
+        <input type="text" id="delete-confirm-input" class="form-input" placeholder="Type your email to confirm">
+      </div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn--outline modal-cancel">Cancel</button>
+      <form action="/account/delete-account" method="POST" id="delete-form" style="display:inline;">
+        <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+        <input type="hidden" name="email" id="delete-confirm-hidden" value="">
+        <button type="submit" class="btn btn--danger" id="confirm-delete-btn" disabled>Permanently Delete Account</button>
+      </form>
+    </div>
+  </div>
+</div>

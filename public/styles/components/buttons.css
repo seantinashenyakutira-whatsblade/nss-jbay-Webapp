@@ -1,0 +1,119 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--text-sm);
+  padding: 12px 28px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.btn--primary {
+  background: var(--clr-primary);
+  color: #fff;
+  border-color: var(--clr-primary);
+}
+
+.btn--primary:hover {
+  background: var(--clr-primary-hover);
+  border-color: var(--clr-primary-hover);
+  color: #fff;
+}
+
+.btn--secondary {
+  background: var(--clr-bg-elevated);
+  color: var(--clr-text);
+  border-color: var(--clr-border);
+}
+
+.btn--secondary:hover {
+  border-color: var(--clr-text-muted);
+  color: var(--clr-text);
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--clr-text);
+  border-color: var(--clr-border);
+}
+
+.btn--outline:hover {
+  border-color: var(--clr-primary);
+  color: var(--clr-primary);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--clr-text-muted);
+  border-color: transparent;
+}
+
+.btn--ghost:hover {
+  color: var(--clr-text);
+  background: var(--clr-bg-alt);
+}
+
+.btn--danger {
+  background: var(--clr-error-bg);
+  color: var(--clr-error);
+  border-color: transparent;
+}
+
+.btn--danger:hover {
+  background: var(--clr-error);
+  color: #fff;
+}
+
+.btn--sm {
+  padding: 8px 18px;
+  font-size: var(--text-xs);
+}
+
+.btn--lg {
+  padding: 16px 36px;
+  font-size: var(--text-base);
+}
+
+.btn--xl {
+  padding: 18px 44px;
+  font-size: var(--text-lg);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn--loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.btn--loading::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-group {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}

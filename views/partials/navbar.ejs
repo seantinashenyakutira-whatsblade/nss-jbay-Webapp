@@ -1,0 +1,76 @@
+<header class="navbar" role="banner">
+  <div class="navbar__inner container">
+    <a href="/" class="navbar__logo" aria-label="National Secure Storage — Home">
+      <span class="navbar__logo-icon">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <path d="M20 2L38 12V28L20 38L2 28V12L20 2Z" fill="#D4006A"/>
+          <path d="M20 8L30 14V26L20 32L10 26V14L20 8Z" fill="#0A0A0A"/>
+          <path d="M20 14L25 17V23L20 26L15 23V17L20 14Z" fill="#D4006A"/>
+        </svg>
+      </span>
+      <span class="navbar__logo-text">
+        <span class="navbar__logo-title">NATIONAL SECURE STORAGE</span>
+        <span class="navbar__logo-sub">Jeffrey's Bay</span>
+      </span>
+    </a>
+
+    <nav class="navbar__nav" aria-label="Main navigation">
+      <ul class="navbar__list">
+        <li><a href="/" class="navbar__link<%= currentPath === '/' ? ' navbar__link--active' : '' %>">Home</a></li>
+        <li><a href="/units" class="navbar__link<%= currentPath && currentPath.startsWith('/units') ? ' navbar__link--active' : '' %>">Storage Units</a></li>
+        <li><a href="/about" class="navbar__link<%= currentPath === '/about' ? ' navbar__link--active' : '' %>">About</a></li>
+        <li><a href="/contact" class="navbar__link<%= currentPath === '/contact' ? ' navbar__link--active' : '' %>">Contact</a></li>
+        <li class="navbar__dropdown">
+          <button class="navbar__link navbar__dropdown-toggle" aria-expanded="false" aria-haspopup="true">Legal <svg class="icon icon--sm icon--inline" aria-hidden="true"><use href="#icon-chevron-down"/></svg></button>
+          <div class="navbar__dropdown-menu">
+            <a href="/terms" class="navbar__dropdown-item">Terms of Use</a>
+            <a href="/privacy" class="navbar__dropdown-item">Privacy Policy</a>
+            <a href="/refund-policy" class="navbar__dropdown-item">Refund Policy</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="navbar__actions">
+      <% if (user) { %>
+        <% if (user.is_admin) { %>
+          <a href="/admin" class="navbar__link navbar__link--admin">Admin</a>
+        <% } %>
+        <a href="/account" class="btn btn--ghost btn--sm">My Account</a>
+        <a href="/auth/logout" class="btn btn--outline btn--sm">Logout</a>
+      <% } else { %>
+        <a href="/auth/login" class="btn btn--primary btn--sm">Login</a>
+      <% } %>
+
+      <button class="navbar__hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="navbar__mobile-overlay" aria-hidden="true"></div>
+<nav class="navbar__mobile" aria-label="Mobile navigation" hidden>
+  <ul class="navbar__mobile-list">
+    <li><a href="/" class="navbar__mobile-link">Home</a></li>
+    <li><a href="/units" class="navbar__mobile-link">Storage Units</a></li>
+    <li><a href="/about" class="navbar__mobile-link">About</a></li>
+    <li><a href="/contact" class="navbar__mobile-link">Contact</a></li>
+    <li class="navbar__mobile-divider" role="separator"></li>
+    <li style="padding:8px 16px;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--clr-text-dim);">Legal</li>
+    <li><a href="/terms" class="navbar__mobile-link" style="padding-left:32px;font-size:var(--text-base);">Terms of Use</a></li>
+    <li><a href="/privacy" class="navbar__mobile-link" style="padding-left:32px;font-size:var(--text-base);">Privacy Policy</a></li>
+    <li><a href="/refund-policy" class="navbar__mobile-link" style="padding-left:32px;font-size:var(--text-base);">Refund Policy</a></li>
+    <% if (user) { %>
+    <li class="navbar__mobile-divider" role="separator"></li>
+    <% if (user.is_admin) { %><li><a href="/admin" class="navbar__mobile-link">Admin</a></li><% } %>
+    <li><a href="/account" class="navbar__mobile-link">My Account</a></li>
+    <li><a href="/auth/logout" class="navbar__mobile-link navbar__mobile-link--danger">Logout</a></li>
+    <% } else { %>
+    <li class="navbar__mobile-divider" role="separator"></li>
+    <li><a href="/auth/login" class="navbar__mobile-link navbar__mobile-link--cta">Login</a></li>
+    <% } %>
+  </ul>
+</nav>

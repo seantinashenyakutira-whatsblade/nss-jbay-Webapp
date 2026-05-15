@@ -1,0 +1,32 @@
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+.icon--xs { width: 14px; height: 14px; }
+.icon--sm { width: 16px; height: 16px; }
+.icon--md { width: 20px; height: 20px; }
+.icon--lg { width: 24px; height: 24px; }
+.icon--xl { width: 32px; height: 32px; }
+.icon--xxl { width: 48px; height: 48px; }
+.icon--xxxl { width: 64px; height: 64px; }
+
+.icon--spin {
+  animation: icon-spin 1s linear infinite;
+}
+@keyframes icon-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.icon--muted { color: var(--clr-text-dim); }
+.icon--primary { color: var(--clr-primary); }
+.icon--success { color: var(--clr-success); }
+.icon--warning { color: var(--clr-warning); }
+.icon--error { color: var(--clr-error); }
+
+.icon--inline {
+  margin-right: 6px;
+}

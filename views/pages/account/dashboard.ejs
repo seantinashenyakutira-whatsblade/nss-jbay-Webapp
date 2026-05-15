@@ -1,0 +1,141 @@
+<section class="page" data-animate="fade-in">
+  <div class="container">
+    <div class="account-layout">
+      <aside class="account-sidebar">
+        <nav aria-label="Account navigation">
+          <a href="/account" class="account-nav-link active">Overview</a>
+          <a href="/account/bookings" class="account-nav-link">My Rentals</a>
+          <a href="/account/payments" class="account-nav-link">Payments</a>
+          <a href="/account/profile" class="account-nav-link">Profile</a>
+        </nav>
+      </aside>
+
+      <div class="account-main">
+        <div class="flex items-center justify-between gap-4 mb-8">
+          <div>
+            <h1 class="page__title">Welcome back, <%= typeof user !== 'undefined' && user ? (user.first_name || user.email.split('@')[0]) : 'Guest' %></h1>
+            <p class="page__subtitle">Here's an overview of your account</p>
+          </div>
+          <a href="/units" class="btn btn--primary">Rent New Unit</a>
+        </div>
+
+        <div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));">
+          <div class="stat-card">
+            <div class="stat-card__value"><%= typeof activeRentals !== 'undefined' ? activeRentals : 0 %></div>
+            <div class="stat-card__label">Active Rentals</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__value"><%= typeof nextPayment !== 'undefined' ? 'R ' + Number(nextPayment).toLocaleString('en-ZA') : 'R 0' %></div>
+            <div class="stat-card__label">Next Payment Due</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__value"><%= typeof totalSpent !== 'undefined' ? 'R ' + Number(totalSpent).toLocaleString('en-ZA') : 'R 0' %></div>
+            <div class="stat-card__label">Total Spent</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__value" style="color:var(--clr-success);">Active</div>
+            <div class="stat-card__label">Account Status</div>
+          </div>
+        </div>
+
+        <div class="grid grid--2 mt-8" style="gap:var(--space-6);">
+          <div class="card card--static">
+            <div class="card__body">
+              <div class="flex items-center justify-between mb-4">
+                <h4>Recent Activity</h4>
+                <a href="/account/bookings" class="btn btn--ghost btn--sm">View All</a>
+              </div>
+              <% if (typeof recentActivity !== 'undefined' && recentActivity.length) { %>
+              <div class="activity-list">
+                <% recentActivity.forEach(function(a) { %>
+                <div class="activity-item">
+                  <div class="activity-item__icon">
+                    <% const iconMap = { active: 'check', completed: 'check', cancelled: 'x', expired: 'clock' }; %>
+                    <svg class="icon icon--sm" aria-hidden="true"><use href="#icon-<%= iconMap[a.status] || 'circle' %>"/></svg>
+                  </div>
+                  <div class="activity-item__content">
+                    <p class="activity-item__desc"><%= a.description %></p>
+                    <span class="activity-item__date text-mono text-xs text-dim"><%= new Date(a.date).toLocaleDateString('en-ZA', { month: 'short', day: 'numeric', year: 'numeric' }) %></span>
+                  </div>
+                  <% const badgeMap = { active: 'success', completed: 'info', cancelled: 'error', expired: 'error' }; %>
+                  <span class="badge badge--<%= badgeMap[a.status] || 'info' %>" style="font-size:0.65rem;"><%= a.status %></span>
+                </div>
+                <% }); %>
+              </div>
+              <% } else { %>
+              <div class="text-center" style="padding:32px 0;">
+                <p class="text-dim text-sm">No recent activity</p>
+                <a href="/units" class="btn btn--outline btn--sm mt-4">Browse Units</a>
+              </div>
+              <% } %>
+            </div>
+          </div>
+
+          <div class="card card--static">
+            <div class="card__body">
+              <h4 class="mb-4">Quick Actions</h4>
+              <div class="quick-actions">
+                <a href="/units" class="quick-action">
+                  <div class="quick-action__icon"><svg class="icon icon--lg icon--primary" aria-hidden="true"><use href="#icon-package"/></svg></div>
+                  <div class="quick-action__content">
+                    <span class="quick-action__title">Rent a Unit</span>
+                    <span class="quick-action__desc">Browse available storage units</span>
+                  </div>
+                  <svg class="quick-action__arrow icon icon--sm" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+                </a>
+                <a href="/account/bookings" class="quick-action">
+                  <div class="quick-action__icon"><svg class="icon icon--lg icon--primary" aria-hidden="true"><use href="#icon-calendar"/></svg></div>
+                  <div class="quick-action__content">
+                    <span class="quick-action__title">My Bookings</span>
+                    <span class="quick-action__desc">View your rental history</span>
+                  </div>
+                  <svg class="quick-action__arrow icon icon--sm" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+                </a>
+                <a href="/account/payments" class="quick-action">
+                  <div class="quick-action__icon"><svg class="icon icon--lg icon--primary" aria-hidden="true"><use href="#icon-credit-card"/></svg></div>
+                  <div class="quick-action__content">
+                    <span class="quick-action__title">Payments</span>
+                    <span class="quick-action__desc">View payment history</span>
+                  </div>
+                  <svg class="quick-action__arrow icon icon--sm" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+                </a>
+                <a href="/account/profile" class="quick-action">
+                  <div class="quick-action__icon"><svg class="icon icon--lg icon--primary" aria-hidden="true"><use href="#icon-settings"/></svg></div>
+                  <div class="quick-action__content">
+                    <span class="quick-action__title">Settings</span>
+                    <span class="quick-action__desc">Update your profile</span>
+                  </div>
+                  <svg class="quick-action__arrow icon icon--sm" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card--static mt-6">
+          <div class="card__body">
+            <h4 class="mb-4">Account Info</h4>
+            <div class="account-info-grid">
+              <div class="account-info-item">
+                <span class="account-info-label">Name</span>
+                <span class="account-info-value"><%= typeof user !== 'undefined' && user ? ((user.first_name || '') + ' ' + (user.last_name || '')).trim() || 'Not set' : 'N/A' %></span>
+              </div>
+              <div class="account-info-item">
+                <span class="account-info-label">Email</span>
+                <span class="account-info-value"><%= typeof user !== 'undefined' && user ? user.email : 'N/A' %></span>
+              </div>
+              <div class="account-info-item">
+                <span class="account-info-label">Phone</span>
+                <span class="account-info-value"><%= typeof user !== 'undefined' && user ? user.phone || 'Not set' : 'N/A' %></span>
+              </div>
+              <div class="account-info-item">
+                <span class="account-info-label">Member Since</span>
+                <span class="account-info-value"><%= typeof user !== 'undefined' && user && user.created_at ? new Date(user.created_at).toLocaleDateString('en-ZA', { month: 'long', year: 'numeric' }) : 'N/A' %></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

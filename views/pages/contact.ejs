@@ -1,0 +1,56 @@
+<section class="page" data-animate="fade-in">
+  <div class="container">
+    <div class="page__header text-center">
+      <h1 class="page__title">Contact Us</h1>
+      <p class="page__subtitle">We'd love to hear from you</p>
+    </div>
+
+    <div class="grid grid--2" style="gap:var(--space-12);">
+      <div>
+        <form action="/contact" method="POST">
+          <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+          <div class="form-group">
+            <label class="form-label form-label--required" for="contactName">Name</label>
+            <input type="text" id="contactName" name="name" class="form-input" placeholder="Your full name" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label form-label--required" for="contactEmail">Email</label>
+              <input type="email" id="contactEmail" name="email" class="form-input" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contactPhone">Phone</label>
+              <input type="tel" id="contactPhone" name="phone" class="form-input" placeholder="063 546 1740">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label form-label--required" for="contactMessage">Message</label>
+            <textarea id="contactMessage" name="message" class="form-textarea" placeholder="How can we help you?" required></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary btn--lg btn--block">Send Message</button>
+        </form>
+      </div>
+
+      <div>
+        <div class="card card--static">
+          <div class="card__body">
+            <h4>Contact Information</h4>
+            <div style="margin-top:20px;">
+              <div class="contact-info-item"><span class="contact-info-label">Address</span><span class="contact-info-value"><%= typeof siteAddress !== 'undefined' ? siteAddress : '35 St Croix Street, Jeffrey\'s Bay, Eastern Cape, 6330' %></span></div>
+              <div class="contact-info-item"><span class="contact-info-label">Phone</span><span class="contact-info-value"><a href="tel:<%= typeof sitePhone1 !== 'undefined' ? sitePhone1 : '0635461740' %>"><%= typeof sitePhone1 !== 'undefined' ? sitePhone1 : '063 546 1740' %></a><br><a href="tel:<%= typeof sitePhone2 !== 'undefined' ? sitePhone2 : '0619058382' %>"><%= typeof sitePhone2 !== 'undefined' ? sitePhone2 : '061 905 8382' %></a></span></div>
+              <div class="contact-info-item"><span class="contact-info-label">Email</span><span class="contact-info-value"><a href="mailto:<%= typeof siteEmail !== 'undefined' ? siteEmail : 'info@nss-jbay.co.za' %>"><%= typeof siteEmail !== 'undefined' ? siteEmail : 'info@nss-jbay.co.za' %></a></span></div>
+              <div class="contact-info-item"><span class="contact-info-label">Social</span><span class="contact-info-value"><a href="<%= typeof fbUrl !== 'undefined' ? fbUrl : '#' %>" target="_blank" rel="noopener">Follow us on Facebook</a></span></div>
+            </div>
+
+            <h4 style="margin-top:32px;">Operating Hours</h4>
+            <table class="hours-table" style="margin-top:16px;">
+              <tr><td>Monday &ndash; Friday</td><td class="text-right">08:00 &ndash; 17:00</td></tr>
+              <tr><td>Saturday</td><td class="text-right">09:00 &ndash; 13:00</td></tr>
+              <tr><td>Sunday</td><td class="text-right text-dim">Closed</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

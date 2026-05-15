@@ -1,0 +1,74 @@
+<footer class="footer" role="contentinfo">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a href="/" class="footer__logo">
+        <svg width="32" height="32" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <path d="M20 2L38 12V28L20 38L2 28V12L20 2Z" fill="#D4006A"/>
+          <path d="M20 8L30 14V26L20 32L10 26V14L20 8Z" fill="#0A0A0A"/>
+          <path d="M20 14L25 17V23L20 26L15 23V17L20 14Z" fill="#D4006A"/>
+        </svg>
+        <span>NATIONAL SECURE STORAGE</span>
+      </a>
+      <p class="footer__desc">Secure, affordable self-storage solutions in Jeffrey's Bay. Your space, your peace of mind. 24/7 CCTV, flexible contracts, and drive-up access.</p>
+      <a href="<%= fbUrl || '#' %>" class="footer__social" target="_blank" rel="noopener" aria-label="Follow us on Facebook">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Follow us on Facebook</span>
+      </a>
+    </div>
+
+    <div class="footer__col">
+      <h4 class="footer__heading">Quick Links</h4>
+      <ul class="footer__list">
+        <li><a href="/">Home</a></li>
+        <li><a href="/units">Storage Units</a></li>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/faq">FAQ</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4 class="footer__heading">Legal</h4>
+      <ul class="footer__list">
+        <li><a href="/terms">Terms of Use</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/refund-policy">Refund Policy</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4 class="footer__heading">Unit Sizes</h4>
+      <ul class="footer__list">
+        <li><a href="/units?size=extra-small">Extra Small (6 m&sup2;)</a></li>
+        <li><a href="/units?size=small">Small (9 m&sup2;)</a></li>
+        <li><a href="/units?size=medium">Medium (18 m&sup2;)</a></li>
+        <li><a href="/units?size=large">Large (27 m&sup2;)</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4 class="footer__heading">Contact</h4>
+      <address class="footer__address">
+        <p><%= siteAddress || '35 St Croix Street, Jeffrey\'s Bay, Eastern Cape, 6330' %></p>
+        <p><a href="tel:<%= (sitePhone1 || '0635461740').replace(/\s/g, '') %>"><%= sitePhone1 || '063 546 1740' %></a></p>
+        <p><a href="tel:<%= (sitePhone2 || '0619058382').replace(/\s/g, '') %>"><%= sitePhone2 || '061 905 8382' %></a></p>
+        <p><a href="mailto:<%= siteEmail || 'info@nss-jbay.co.za' %>"><%= siteEmail || 'info@nss-jbay.co.za' %></a></p>
+      </address>
+      <div class="footer__hours">
+        <h4 class="footer__heading">Hours</h4>
+        <dl class="footer__hours-list">
+          <div><dt>Mon&ndash;Fri</dt><dd>08:00 &ndash; 17:00</dd></div>
+          <div><dt>Saturday</dt><dd>09:00 &ndash; 13:00</dd></div>
+          <div><dt>Sunday</dt><dd>Closed</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <div class="container footer__bottom-inner">
+      <p>&copy; <%= new Date().getFullYear() %> National Secure Storage &mdash; Jeffrey's Bay. All rights reserved.</p>
+      <p class="footer__credit">Built by <a href="https://whatsblade.com" target="_blank" rel="noopener">Whatsblade technologies</a></p>
+    </div>
+  </div>
+</footer>
