@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
   }
 
   const { data: unit } = await supabase.from("units").select("*").eq("id", unitId).single();
-  if (!unit || unit.availability === "unavailable") {
+  if (!unit || unit.availability === "rented") {
     return NextResponse.redirect(new URL("/bookings/new?error=Unit unavailable", request.url));
   }
 
@@ -39,20 +39,25 @@ export async function POST(request: NextRequest) {
   const endDate = new Date(startDate);
   endDate.setMonth(endDate.getMonth() + duration);
 
-  const { data: booking } = await supabase.from("bookings").insert({
+  const reference = generateReference();
+
+  const { data: booking, error: bookingError } = await supabase.from("bookings").insert({
     user_id: user.id,
     unit_id: unitId,
-    reference: generateReference(),
+    reference,
     start_date: startDate,
     duration_months: duration,
     end_date: endDate.toISOString().split("T")[0],
     monthly_rate: monthlyRate,
     total_amount: totalAmount,
     discount_applied: discountAmount,
-    status: "active",
+    status: "pending_payment",
   }).select().single();
 
-  if (!booking) return NextResponse.redirect(new URL("/bookings/new?error=Booking failed", request.url));
+  if (bookingError || !booking) {
+    console.error("Booking creation error:", bookingError);
+    return NextResponse.redirect(new URL("/bookings/new?error=Booking failed", request.url));
+  }
 
   const hostname = request.headers.get("host") || "";
   const isSingleOriginMode = hostname === "localhost" || hostname.startsWith("localhost:") || hostname === "127.0.0.1" || hostname.endsWith(".vercel.app");

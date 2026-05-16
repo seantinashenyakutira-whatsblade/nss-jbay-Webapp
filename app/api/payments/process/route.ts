@@ -19,7 +19,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Booking not found" }, { status: 404 });
   }
 
-  // Simulate payment processing
   const isSuccessful = Math.random() < 0.85;
   const reference = "PAY-" + uuidv4().toUpperCase().slice(0, 8);
 
@@ -47,6 +46,10 @@ export async function POST(request: NextRequest) {
     status: "completed",
     reference,
   });
+
+  await supabase.from("bookings").update({ status: "active" }).eq("id", bookingId);
+
+  await supabase.from("units").update({ availability: "rented" }).eq("id", booking.unit_id);
 
   return NextResponse.json({ success: true, reference, message: `Payment of R${amount} processed successfully` });
 }

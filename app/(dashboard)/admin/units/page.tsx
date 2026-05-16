@@ -41,9 +41,9 @@ export default async function AdminUnitsPage() {
                 <td className="px-5 py-3.5 text-sm text-[#a09a95]">R {Number(u.price_monthly).toLocaleString("en-ZA")}/mo</td>
                 <td className="px-5 py-3.5 text-sm text-[#a09a95]">{u.block_section || "—"}</td>
                 <td className="px-5 py-3.5">
-                  <Badge variant={u.availability === "available" ? "success" : u.availability === "few-left" ? "warning" : "error"}>
-                    {u.availability === "few-left" ? "Few Left" : u.availability.charAt(0).toUpperCase() + u.availability.slice(1)}
-                  </Badge>
+                    <Badge variant={u.availability === "available" ? "success" : u.availability === "few-left" ? "warning" : "error"}>
+                      {u.availability === "few-left" ? "Few Left" : u.availability === "rented" ? "Rented" : u.availability.charAt(0).toUpperCase() + u.availability.slice(1)}
+                    </Badge>
                 </td>
                 <td className="px-5 py-3.5"><Badge variant={u.is_active ? "success" : "error"}>{u.is_active ? "Yes" : "No"}</Badge></td>
                 <td className="px-5 py-3.5">
