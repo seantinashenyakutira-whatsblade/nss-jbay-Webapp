@@ -1,7 +1,10 @@
+"use client";
+
 import { Badge } from "@/components/ui/Badge";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Package } from "lucide-react";
 import Link from "next/link";
 import { getUnitImageUrl } from "@/lib/images";
+import { useState } from "react";
 
 interface UnitCardProps {
   unit: {
@@ -20,23 +23,26 @@ interface UnitCardProps {
 }
 
 export default function UnitCard({ unit }: UnitCardProps) {
+  const [imgError, setImgError] = useState(false);
   const badgeVariant = unit.availability === "available" ? "success" : unit.availability === "few-left" ? "warning" : "error";
   const badgeLabel = unit.availability === "few-left" ? "Few Left" : unit.availability.charAt(0).toUpperCase() + unit.availability.slice(1);
 
   return (
     <div className="card rounded-md group">
       <div className="w-full h-[180px] overflow-hidden relative">
-        <img
-          src={getUnitImageUrl(unit.name)}
-          alt={unit.name}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-          loading="lazy"
-          onError={(e) => {
-            const target = e.currentTarget;
-            target.style.display = "none";
-            target.parentElement!.innerHTML = '<div class="w-full h-full bg-gradient-to-br from-[#111] to-[#222]"></div>';
-          }}
-        />
+        {imgError ? (
+          <div className="w-full h-full bg-gradient-to-br from-[#111] to-[#222] flex items-center justify-center">
+            <Package className="w-8 h-8 text-[#6b6560]" />
+          </div>
+        ) : (
+          <img
+            src={getUnitImageUrl(unit)}
+            alt={unit.name}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+            onError={() => setImgError(true)}
+          />
+        )}
       </div>
       <div className="p-6">
         <div className="card__meta">

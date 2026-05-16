@@ -1,5 +1,5 @@
 import { Building2, ShieldAlert, Key, Mountain, Trees, Factory } from "lucide-react";
-import Image from "next/image";
+import { getFacilityImageUrl, getMapImageUrl } from "@/lib/images";
 
 const securityFeatures = [
   { icon: Building2, title: "24/7 CCTV Surveillance", text: "High-definition cameras monitor all areas of our facility around the clock. Recorded footage is securely stored." },
@@ -34,7 +34,7 @@ export default function AboutPage() {
               <p className="text-[#a09a95] leading-relaxed mt-4">Our facility at 35 St Croix Street offers a range of unit sizes from extra-small (6 m²) to large (27 m²), suitable for everything from a few boxes to the contents of a large home.</p>
             </div>
             <div>
-              <img src="https://picsum.photos/seed/nss-jbay-facility/600/400" alt="National Secure Storage facility" className="w-full h-[300px] object-cover rounded-lg border border-[#2a2a2a]" loading="lazy" />
+              <img src={getFacilityImageUrl()} alt="National Secure Storage facility" className="w-full h-[300px] object-cover rounded-lg border border-[#2a2a2a]" loading="lazy" />
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@ export default function AboutPage() {
         <div className="container" style={{ maxWidth: 800 }}>
           <div className="grid grid--2 items-center gap-12">
             <div>
-              <img src="https://picsum.photos/seed/nss-jbay-map/600/400" alt="Map showing NSS JBay location" className="w-full h-[250px] object-cover rounded-lg border border-[#2a2a2a]" loading="lazy" />
+              <img src={getMapImageUrl()} alt="Map showing NSS JBay location" className="w-full h-[250px] object-cover rounded-lg border border-[#2a2a2a]" loading="lazy" />
             </div>
             <div>
               <h3 className="text-3xl mb-4">Our Location</h3>

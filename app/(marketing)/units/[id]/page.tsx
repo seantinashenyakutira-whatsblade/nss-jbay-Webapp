@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { ArrowLeft, CheckCircle, AlertTriangle } from "lucide-react";
+import UnitImage from "@/components/marketing/UnitImage";
 
 interface UnitDetailPageProps {
   params: { id: string };
@@ -45,6 +46,10 @@ export default async function UnitDetailPage({ params }: UnitDetailPageProps) {
         <a href="/units" className="inline-flex items-center gap-1.5 text-sm text-[#a09a95] hover:text-white mb-6 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Units
         </a>
+
+        <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-md overflow-hidden mb-6">
+          <UnitImage unit={{ size: unit.size, name: unit.name }} width={800} height={400} className="h-[300px]" />
+        </div>
 
         <div className="flex justify-between items-start flex-wrap gap-4 mb-8">
           <div>
