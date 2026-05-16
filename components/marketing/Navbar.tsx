@@ -40,7 +40,7 @@ export default function Navbar() {
               </div>
             )}
           </div>
-          <Link href="https://hub.example.com/dashboard" className="btn btn--outline btn--sm">
+          <Link href="/dashboard" className="btn btn--outline btn--sm">
             <LayoutDashboard className="w-4 h-4" /> My Account
           </Link>
         </nav>
@@ -63,7 +63,7 @@ export default function Navbar() {
             <Link href="/privacy" className="block py-2 pl-6 text-sm text-[#a09a95]" onClick={() => setMobileOpen(false)}>Privacy Policy</Link>
             <Link href="/refund-policy" className="block py-2 pl-6 text-sm text-[#a09a95]" onClick={() => setMobileOpen(false)}>Refund Policy</Link>
             <div className="border-t border-[#2a2a2a] my-2" />
-            <Link href="https://hub.example.com/dashboard" className="block py-2 text-sm text-[#D4006A] font-medium" onClick={() => setMobileOpen(false)}>My Account</Link>
+            <Link href="/dashboard" className="block py-2 text-sm text-[#D4006A] font-medium" onClick={() => setMobileOpen(false)}>My Account</Link>
           </div>
         </div>
       )}

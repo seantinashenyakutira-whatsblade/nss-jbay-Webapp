@@ -63,7 +63,7 @@ export default function DashboardSidebar() {
       <div className="border-t border-[#2a2a2a] my-4" />
 
       <Link
-        href="https://example.com"
+        href="/"
         className="flex items-center gap-2 px-3 py-2 rounded text-xs text-[#6b6560] font-mono hover:text-[#a09a95] transition-colors"
       >
         <ArrowLeft className="w-3 h-3" /> View Site

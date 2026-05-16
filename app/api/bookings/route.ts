@@ -54,6 +54,8 @@ export async function POST(request: NextRequest) {
 
   if (!booking) return NextResponse.redirect(new URL("/bookings/new?error=Booking failed", request.url));
 
-  const hubDomain = `https://hub.${process.env.NEXT_PUBLIC_MAIN_DOMAIN || "example.com"}`;
-  return NextResponse.redirect(new URL(`/payments/pay/${booking.id}`, hubDomain));
+  const hostname = request.headers.get("host") || "";
+  const isSingleOriginMode = hostname === "localhost" || hostname.startsWith("localhost:") || hostname === "127.0.0.1" || hostname.endsWith(".vercel.app");
+  const hubOrigin = isSingleOriginMode ? `${request.nextUrl.protocol}//${hostname}` : `https://hub.${process.env.NEXT_PUBLIC_MAIN_DOMAIN || "example.com"}`;
+  return NextResponse.redirect(new URL(`/payments/pay/${booking.id}`, hubOrigin));
 }

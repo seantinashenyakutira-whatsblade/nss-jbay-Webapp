@@ -53,7 +53,7 @@ export default function ProfilePage() {
       setMessage("error|Failed to delete account. Please contact support.");
     } else {
       await supabase.auth.signOut();
-      window.location.href = "https://example.com";
+      window.location.href = "/";
     }
     setDeleteModalOpen(false);
   }
@@ -97,7 +97,7 @@ export default function ProfilePage() {
       <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-md p-6 mb-8" style={{ maxWidth: 640 }}>
         <h4 className="text-lg mb-1">Change Password</h4>
         <p className="text-sm text-[#a09a95] mb-6">We&apos;ll send you a password reset link via email.</p>
-        <a href="https://example.com/auth/forgot-password" className="btn btn--outline">Send Reset Link</a>
+        <a href="/auth/forgot-password" className="btn btn--outline">Send Reset Link</a>
       </div>
 
       <div className="bg-[#1a1a1a] border border-[rgba(239,68,68,0.3)] rounded-md p-6" style={{ maxWidth: 640 }}>

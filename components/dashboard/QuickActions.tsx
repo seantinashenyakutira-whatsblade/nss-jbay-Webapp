@@ -1,7 +1,7 @@
 import { Package, Calendar, CreditCard, Settings, ArrowRight } from "lucide-react";
 
 const actions = [
-  { href: "https://example.com/units", icon: Package, title: "Rent a Unit", desc: "Browse available storage units" },
+  { href: "/units", icon: Package, title: "Rent a Unit", desc: "Browse available storage units" },
   { href: "/bookings", icon: Calendar, title: "My Bookings", desc: "View your rental history" },
   { href: "/payments", icon: CreditCard, title: "Payments", desc: "View payment history" },
   { href: "/profile", icon: Settings, title: "Settings", desc: "Update your profile" },

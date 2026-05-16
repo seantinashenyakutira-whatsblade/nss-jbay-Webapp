@@ -25,7 +25,7 @@ export default async function BookingsPage() {
           <h1 className="text-4xl mb-1">My Rentals</h1>
           <p className="text-[#a09a95]">Manage your active and past storage rentals</p>
         </div>
-        <a href="https://example.com/units" className="btn btn--primary">Rent Another Unit</a>
+        <a href="/units" className="btn btn--primary">Rent Another Unit</a>
       </div>
 
       <div className="flex gap-2 mb-6 border-b border-[#2a2a2a] pb-0 overflow-x-auto">
@@ -51,7 +51,7 @@ export default async function BookingsPage() {
           <div className="empty-state__icon"><Inbox className="w-16 h-16 mx-auto text-[#6b6560]" /></div>
           <h3 className="empty-state__title">No rentals yet</h3>
           <p className="empty-state__text">You haven&apos;t rented any storage units yet. Browse our available units and get started today.</p>
-          <a href="https://example.com/units" className="btn btn--primary">Browse Units</a>
+          <a href="/units" className="btn btn--primary">Browse Units</a>
         </div>
       )}
     </div>

@@ -47,7 +47,7 @@ export default async function DashboardPage() {
           <h1 className="text-4xl mb-1">Welcome back, {user.user_metadata?.first_name || user.email?.split("@")[0] || "Guest"}</h1>
           <p className="text-[#a09a95]">Here&apos;s an overview of your account</p>
         </div>
-        <a href="https://example.com/units" className="btn btn--primary">Rent New Unit</a>
+        <a href="/units" className="btn btn--primary">Rent New Unit</a>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

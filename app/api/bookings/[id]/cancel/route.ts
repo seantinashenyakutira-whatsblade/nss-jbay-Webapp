@@ -13,6 +13,8 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
 
   await supabase.from("bookings").update({ status: "cancelled", updated_at: new Date().toISOString() }).eq("id", params.id);
 
-  const hubDomain = `https://hub.${process.env.NEXT_PUBLIC_MAIN_DOMAIN || "example.com"}`;
-  return NextResponse.redirect(new URL("/bookings", hubDomain));
+  const hostname = request.headers.get("host") || "";
+  const isSingleOriginMode = hostname === "localhost" || hostname.startsWith("localhost:") || hostname === "127.0.0.1" || hostname.endsWith(".vercel.app");
+  const hubOrigin = isSingleOriginMode ? `${request.nextUrl.protocol}//${hostname}` : `https://hub.${process.env.NEXT_PUBLIC_MAIN_DOMAIN || "example.com"}`;
+  return NextResponse.redirect(new URL("/bookings", hubOrigin));
 }

@@ -74,7 +74,7 @@ export default async function PaymentsPage() {
           <div className="empty-state__icon"><CreditCard className="w-16 h-16 mx-auto text-[#6b6560]" /></div>
           <h3 className="empty-state__title">No payments yet</h3>
           <p className="empty-state__text">Payment records will appear here once you rent a storage unit.</p>
-          <a href="https://example.com/units" className="btn btn--primary">Browse Units</a>
+          <a href="/units" className="btn btn--primary">Browse Units</a>
         </div>
       )}
     </div>
