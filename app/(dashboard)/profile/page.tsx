@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Modal } from "@/components/ui/Modal";
@@ -8,7 +8,7 @@ import { AlertTriangle } from "lucide-react";
 
 export default function ProfilePage() {
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
   const [user, setUser] = useState<any>(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -17,26 +17,40 @@ export default function ProfilePage() {
   const [message, setMessage] = useState("");
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteInput, setDeleteInput] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
     supabase.auth.getUser().then(({ data: { user: u } }) => {
+      if (!mounted) return;
       if (!u) { router.push("/auth/login?redirect=/profile&domain=hub"); return; }
       setUser(u);
       setFirstName(u.user_metadata?.first_name || "");
       setLastName(u.user_metadata?.last_name || "");
       setPhone(u.user_metadata?.phone || "");
+      setLoading(false);
     });
+    return () => { mounted = false; };
   }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-[#D4006A] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-sm text-[#a09a95]">Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
     setMessage("");
-
     const { error } = await supabase.auth.updateUser({
       data: { first_name: firstName, last_name: lastName, phone },
     });
-
     if (error) {
       setMessage("error|Failed to update profile");
     } else {
@@ -61,13 +75,11 @@ export default function ProfilePage() {
   return (
     <div>
       <h1 className="text-4xl mb-8">My Profile</h1>
-
       {message && (
         <div className={`mb-4 p-3 rounded text-sm ${message.startsWith("success") ? "bg-[rgba(34,197,94,0.1)] border border-[rgba(34,197,94,0.3)] text-[#22c55e]" : "bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.3)] text-[#ef4444]"}`}>
           {message.split("|")[1]}
         </div>
       )}
-
       <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-md p-6 mb-8" style={{ maxWidth: 640 }}>
         <h4 className="text-lg mb-5">Personal Information</h4>
         <form onSubmit={handleSave} className="space-y-4">
@@ -93,19 +105,16 @@ export default function ProfilePage() {
           <button type="submit" disabled={saving} className="btn btn--primary">{saving ? "Saving..." : "Save Changes"}</button>
         </form>
       </div>
-
       <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-md p-6 mb-8" style={{ maxWidth: 640 }}>
         <h4 className="text-lg mb-1">Change Password</h4>
         <p className="text-sm text-[#a09a95] mb-6">We&apos;ll send you a password reset link via email.</p>
         <a href="/auth/forgot-password" className="btn btn--outline">Send Reset Link</a>
       </div>
-
       <div className="bg-[#1a1a1a] border border-[rgba(239,68,68,0.3)] rounded-md p-6" style={{ maxWidth: 640 }}>
         <h4 className="text-lg mb-1" style={{ color: "#ef4444" }}>Danger Zone</h4>
         <p className="text-sm text-[#a09a95] mb-4">Permanently delete your account and all associated data. This action cannot be undone.</p>
         <button onClick={() => setDeleteModalOpen(true)} className="btn btn--danger btn--sm">Delete My Account</button>
       </div>
-
       <Modal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} title="Delete Account"
         footer={
           <>

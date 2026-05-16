@@ -1,8 +1,8 @@
-export const UNIT_SIZES = {
-  "extra-small": { label: "Extra Small", sqm: 6, dimensions: "3m × 2m × 2.4m" },
-  small: { label: "Small", sqm: 9, dimensions: "3m × 3m × 2.4m" },
-  medium: { label: "Medium", sqm: 18, dimensions: "6m × 3m × 2.4m" },
-  large: { label: "Large", sqm: 27, dimensions: "9m × 3m × 2.4m" },
+﻿export const UNIT_SIZES = {
+  "extra-small": { label: "Extra Small", sqm: 6, dimensions: "3m x 2m x 2.4m" },
+  small: { label: "Small", sqm: 9, dimensions: "3m x 3m x 2.4m" },
+  medium: { label: "Medium", sqm: 18, dimensions: "6m x 3m x 2.4m" },
+  large: { label: "Large", sqm: 27, dimensions: "9m x 3m x 2.4m" },
 } as const;
 
 export const DURATIONS = [
@@ -38,5 +38,5 @@ export const PAYMENT_STATUS = {
 export const AVAILABILITY = {
   available: { label: "Available", className: "badge--success" },
   "few-left": { label: "Few Left", className: "badge--warning" },
-  unavailable: { label: "Unavailable", className: "badge--error" },
+  rented: { label: "Rented", className: "badge--error" },
 } as const;

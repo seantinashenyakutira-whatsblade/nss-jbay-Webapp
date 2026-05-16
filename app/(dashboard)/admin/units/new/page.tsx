@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/Button";
+﻿import { Button } from "@/components/ui/Button";
 import { Image } from "lucide-react";
 
 export default function AdminNewUnitPage() {
@@ -12,7 +12,7 @@ export default function AdminNewUnitPage() {
           <div className="space-y-4">
             <div>
               <label htmlFor="unitName" className="block text-sm font-mono text-[#6b6560] uppercase tracking-wider mb-1.5">Unit Name <span className="text-[#ef4444]">*</span></label>
-              <input type="text" id="unitName" name="name" className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2a2a2a] rounded text-sm text-white outline-none focus:border-[#D4006A] transition-colors" placeholder="e.g. Extra Small — Essentials" required />
+              <input type="text" id="unitName" name="name" className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2a2a2a] rounded text-sm text-white outline-none focus:border-[#D4006A] transition-colors" placeholder="e.g. Extra Small â€” Essentials" required />
             </div>
             <div>
               <label htmlFor="unitSize" className="block text-sm font-mono text-[#6b6560] uppercase tracking-wider mb-1.5">Size Category <span className="text-[#ef4444]">*</span></label>
@@ -30,7 +30,7 @@ export default function AdminNewUnitPage() {
               </div>
               <div>
                 <label htmlFor="unitDims" className="block text-sm font-mono text-[#6b6560] uppercase tracking-wider mb-1.5">Dimensions <span className="text-[#ef4444]">*</span></label>
-                <input type="text" id="unitDims" name="dimensions" className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2a2a2a] rounded text-sm text-white outline-none focus:border-[#D4006A] transition-colors" placeholder="3m × 2m × 2.4m" required />
+                <input type="text" id="unitDims" name="dimensions" className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2a2a2a] rounded text-sm text-white outline-none focus:border-[#D4006A] transition-colors" placeholder="3m Ã— 2m Ã— 2.4m" required />
               </div>
             </div>
             <div>
@@ -67,7 +67,7 @@ export default function AdminNewUnitPage() {
               <div className="flex gap-3 mt-2">
                 <label className="flex items-center gap-2 text-sm text-[#a09a95]"><input type="radio" name="availability" value="available" defaultChecked /> Available</label>
                 <label className="flex items-center gap-2 text-sm text-[#a09a95]"><input type="radio" name="availability" value="few-left" /> Few Left</label>
-                <label className="flex items-center gap-2 text-sm text-[#a09a95]"><input type="radio" name="availability" value="unavailable" /> Unavailable</label>
+                <label className="flex items-center gap-2 text-sm text-[#a09a95]"><input type="radio" name="availability" value="rented" /> Rented</label>
               </div>
             </div>
             <div>
@@ -87,3 +87,4 @@ export default function AdminNewUnitPage() {
     </div>
   );
 }
+

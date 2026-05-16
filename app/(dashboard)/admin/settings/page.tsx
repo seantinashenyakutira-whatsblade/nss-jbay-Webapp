@@ -1,6 +1,14 @@
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 export default async function AdminSettingsPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/auth/login?redirect=/admin/settings&domain=hub");
+
+  const { data: profile } = await supabase.from("profiles").select("is_admin").eq("id", user.id).single();
+  if (!profile?.is_admin) redirect("/dashboard");
+
   return (
     <div>
       <div className="flex items-center justify-between gap-4 mb-8">
@@ -54,7 +62,6 @@ export default async function AdminSettingsPage() {
               </div>
             ))}
           </div>
-
           <div className="mt-6">
             <h5 className="text-sm font-mono text-[#6b6560] uppercase tracking-wider mb-3">Access Hours</h5>
             <p className="text-sm text-[#a09a95]">Tenants have 24/7 access to their units with their personal access code.</p>

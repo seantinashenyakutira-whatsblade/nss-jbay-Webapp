@@ -1,9 +1,23 @@
--- Migration 001: Create core tables for National Secure Storage
+﻿-- Migration 001: Create core tables for National Secure Storage
 -- Created: 2026-05-16
--- Updated: 2026-05-16 - Added missing columns for bookings, payments, contact_messages
+-- Updated: 2026-05-16 - Added DROP statements for clean re-runs, make_admin function
 
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Drop existing objects for clean re-runs (safe to run even if they don't exist)
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+DROP FUNCTION IF EXISTS public.handle_new_user();
+DROP TRIGGER IF EXISTS update_units_updated_at ON units;
+DROP TRIGGER IF EXISTS update_profiles_updated_at ON profiles;
+DROP TRIGGER IF EXISTS update_bookings_updated_at ON bookings;
+DROP TRIGGER IF EXISTS update_payments_updated_at ON payments;
+DROP FUNCTION IF EXISTS update_updated_at_column();
+DROP TABLE IF EXISTS contact_messages CASCADE;
+DROP TABLE IF EXISTS payments CASCADE;
+DROP TABLE IF EXISTS bookings CASCADE;
+DROP TABLE IF EXISTS profiles CASCADE;
+DROP TABLE IF EXISTS units CASCADE;
 
 -- Units table: Storage unit listings
 CREATE TABLE IF NOT EXISTS units (
@@ -212,3 +226,12 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW
   EXECUTE FUNCTION public.handle_new_user();
+
+-- Create function to make a user admin (run after user signup)
+CREATE OR REPLACE FUNCTION make_admin(user_email TEXT)
+RETURNS void AS $$
+BEGIN
+  UPDATE profiles SET is_admin = true 
+  WHERE id = (SELECT id FROM auth.users WHERE email = user_email);
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
