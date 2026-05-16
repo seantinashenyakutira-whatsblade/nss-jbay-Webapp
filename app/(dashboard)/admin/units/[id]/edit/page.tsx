@@ -10,7 +10,7 @@ interface EditUnitPageProps {
 export default async function EditUnitPage({ params }: EditUnitPageProps) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/auth/login?redirect=/admin/units&domain=hub");
+  if (!user) redirect("/auth/login?redirect=/admin/units");
 
   const { data: profile } = await supabase.from("profiles").select("is_admin").eq("id", user.id).single();
   if (!profile?.is_admin) redirect("/dashboard");

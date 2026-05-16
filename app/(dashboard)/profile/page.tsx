@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
@@ -23,7 +23,7 @@ export default function ProfilePage() {
     let mounted = true;
     supabase.auth.getUser().then(({ data: { user: u } }) => {
       if (!mounted) return;
-      if (!u) { router.push("/auth/login?redirect=/profile&domain=hub"); return; }
+      if (!u) { router.push("/auth/login?redirect=/profile"); return; }
       setUser(u);
       setFirstName(u.user_metadata?.first_name || "");
       setLastName(u.user_metadata?.last_name || "");

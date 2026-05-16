@@ -10,7 +10,6 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") || "/dashboard";
-  const domain = searchParams.get("domain") || "hub";
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -31,13 +30,7 @@ function LoginForm() {
       setLoading(false);
       return;
     }
-    const isSingleOrigin = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.endsWith(".vercel.app");
-    if (isSingleOrigin) {
-      window.location.href = `${window.location.origin}${redirect}`;
-    } else {
-      const hubUrl = `https://hub.${process.env.NEXT_PUBLIC_MAIN_DOMAIN || "example.com"}${redirect}`;
-      window.location.href = hubUrl;
-    }
+    window.location.href = redirect;
   }
 
   async function handleRegister(e: React.FormEvent<HTMLFormElement>) {

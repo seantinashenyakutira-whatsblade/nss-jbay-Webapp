@@ -7,7 +7,7 @@ import { Mail, Phone, Shield, User } from "lucide-react";
 export default async function AdminCustomersPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/auth/login?redirect=/admin/customers&domain=hub");
+  if (!user) redirect("/auth/login?redirect=/admin/customers");
 
   const { data: profile } = await supabase.from("profiles").select("is_admin").eq("id", user.id).single();
   if (!profile?.is_admin) redirect("/dashboard");

@@ -10,7 +10,7 @@ interface PayPageProps {
 export default async function PayPage({ params }: PayPageProps) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) { redirect("/auth/login?redirect=/payments/pay/__BOOKING_ID__&domain=hub"); return; }
+  if (!user) { redirect("/auth/login?redirect=/payments/pay/__BOOKING_ID__"); return; }
 
   const { data: booking, error } = await supabase
     .from("bookings")

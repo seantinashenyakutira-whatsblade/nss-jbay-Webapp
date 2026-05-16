@@ -7,7 +7,7 @@ import { CreditCard, Download } from "lucide-react";
 export default async function PaymentsPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) { redirect("/auth/login?redirect=/payments&domain=hub"); return; }
+  if (!user) { redirect("/auth/login?redirect=/payments"); return; }
 
   const { data: payments, error: paymentsError } = await supabase
     .from("payments")

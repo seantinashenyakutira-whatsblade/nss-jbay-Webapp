@@ -12,7 +12,7 @@ const SIZE_LABELS: Record<string, string> = {
 export default async function AdminPricingPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/auth/login?redirect=/admin/pricing&domain=hub");
+  if (!user) redirect("/auth/login?redirect=/admin/pricing");
 
   const { data: profile } = await supabase.from("profiles").select("is_admin").eq("id", user.id).single();
   if (!profile?.is_admin) redirect("/dashboard");

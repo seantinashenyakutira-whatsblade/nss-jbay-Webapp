@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -14,16 +14,5 @@ export async function POST(request: NextRequest) {
   }
 
   const redirectTo = (formData.get("redirect") as string) || "/dashboard";
-  const domain = (formData.get("domain") as string) || "hub";
-
-  const hostname = request.headers.get("host") || "";
-  const isLocalDev =
-    hostname === "localhost" || hostname.startsWith("localhost:") || hostname === "127.0.0.1";
-  const isVercelPreview = hostname.endsWith(".vercel.app");
-  const isSingleOriginMode = isLocalDev || isVercelPreview;
-  const hubOrigin = isSingleOriginMode
-    ? `${request.nextUrl.protocol}//${hostname}`
-    : `https://hub.${process.env.NEXT_PUBLIC_MAIN_DOMAIN || "example.com"}`;
-
-  return NextResponse.redirect(new URL(redirectTo, domain === "hub" ? hubOrigin : request.nextUrl.origin));
+  return NextResponse.redirect(new URL(redirectTo, request.url));
 }

@@ -7,7 +7,7 @@ import { Edit, Trash2 } from "lucide-react";
 export default async function AdminUnitsPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/auth/login?redirect=/admin/units&domain=hub");
+  if (!user) redirect("/auth/login?redirect=/admin/units");
 
   const { data: units, error } = await supabase.from("units").select("*").order("sqm", { ascending: true });
   if (error) console.error("Failed to fetch units:", error);

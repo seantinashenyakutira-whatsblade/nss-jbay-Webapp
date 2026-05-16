@@ -12,7 +12,7 @@ interface BookingDetailPageProps {
 export default async function BookingDetailPage({ params }: BookingDetailPageProps) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) { redirect("/auth/login?redirect=/bookings&domain=hub"); return; }
+  if (!user) { redirect("/auth/login?redirect=/bookings"); return; }
 
   const { data: booking, error: bookingError } = await supabase
     .from("bookings")

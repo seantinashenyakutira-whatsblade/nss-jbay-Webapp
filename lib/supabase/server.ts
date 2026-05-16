@@ -1,4 +1,4 @@
-import { createServerClient } from "@supabase/ssr";
+﻿import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 export async function createClient() {
@@ -14,12 +14,7 @@ export async function createClient() {
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, {
-              ...options,
-              domain: process.env.NEXT_PUBLIC_MAIN_DOMAIN
-                ? `.${process.env.NEXT_PUBLIC_MAIN_DOMAIN}`
-                : undefined,
-            })
+            cookieStore.set(name, value, options)
           );
         },
       },

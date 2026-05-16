@@ -1,6 +1,5 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
-import { v4 as uuidv4 } from "uuid";
 
 const DURATION_DISCOUNTS: Record<number, number> = { 1: 0, 3: 5, 6: 10, 12: 15 };
 const VALID_DURATIONS = [1, 3, 6, 12];
@@ -59,8 +58,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.redirect(new URL("/bookings/new?error=Booking failed", request.url));
   }
 
-  const hostname = request.headers.get("host") || "";
-  const isSingleOriginMode = hostname === "localhost" || hostname.startsWith("localhost:") || hostname === "127.0.0.1" || hostname.endsWith(".vercel.app");
-  const hubOrigin = isSingleOriginMode ? `${request.nextUrl.protocol}//${hostname}` : `https://hub.${process.env.NEXT_PUBLIC_MAIN_DOMAIN || "example.com"}`;
-  return NextResponse.redirect(new URL(`/payments/pay/${booking.id}`, hubOrigin));
+  return NextResponse.redirect(new URL(`/payments/pay/${booking.id}`, request.url));
 }

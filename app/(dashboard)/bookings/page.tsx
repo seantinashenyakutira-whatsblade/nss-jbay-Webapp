@@ -8,7 +8,7 @@ export default async function BookingsPage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/auth/login?redirect=/bookings&domain=hub");
+    redirect("/auth/login?redirect=/bookings");
     return;
   }
 

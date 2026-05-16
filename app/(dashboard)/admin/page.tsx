@@ -7,7 +7,7 @@ import { formatCurrency } from "@/lib/utils";
 export default async function AdminDashboardPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/auth/login?redirect=/admin&domain=hub");
+  if (!user) redirect("/auth/login?redirect=/admin");
 
   const { data: profile, error: profileError } = await supabase.from("profiles").select("is_admin").eq("id", user.id).single();
   if (profileError) console.error("Failed to fetch profile:", profileError);
