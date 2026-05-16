@@ -10,9 +10,14 @@ export async function GET(request: NextRequest) {
     const { supabase, response } = createClient(request);
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      return NextResponse.redirect(new URL(next, request.url));
+      const forwardedHost = request.headers.get("x-forwarded-host");
+      const isLocal = process.env.NODE_ENV === "development";
+      const redirectUrl = isLocal
+        ? `${origin}${next}`
+        : `https://${forwardedHost}${next}`;
+      return NextResponse.redirect(redirectUrl);
     }
   }
 
-  return NextResponse.redirect(new URL("/auth/login?error=Auth failed", origin));
+  return NextResponse.redirect(new URL("/auth/login?error=Auth+failed", origin));
 }

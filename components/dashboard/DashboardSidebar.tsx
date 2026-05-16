@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import { LayoutDashboard, Calendar, CreditCard, User, Settings, Building2, DollarSign, LogOut, ArrowLeft, ShieldCheck, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
 
 interface NavItem {
   href: string;
@@ -32,6 +34,36 @@ const adminNavItems: NavItem[] = [
 export default function DashboardSidebar() {
   const pathname = usePathname();
   const isAdminPage = pathname.startsWith("/admin");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const supabase = createClient();
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        supabase
+          .from("profiles")
+          .select("is_admin")
+          .eq("id", session.user.id)
+          .single()
+          .then(({ data }) => {
+            setIsAdmin(data?.is_admin === true);
+            setLoading(false);
+          });
+      } else {
+        setLoading(false);
+      }
+    });
+  }, []);
+
+  const handleLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    window.location.href = "/";
+  };
+
+  const visibleNavItems = isAdminPage && isAdmin ? adminNavItems : navItems;
 
   return (
     <aside className="fixed top-0 left-0 bottom-0 w-[220px] bg-[#111] border-r border-[#2a2a2a] p-4 pt-[72px] overflow-y-auto z-40">
@@ -40,7 +72,7 @@ export default function DashboardSidebar() {
           {isAdminPage ? "ADMIN" : "PORTAL"}
         </div>
 
-        {(isAdminPage ? adminNavItems : navItems).map((item) => {
+        {!loading && visibleNavItems.map((item) => {
           const isActive = pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href));
           return (
             <Link
@@ -69,12 +101,12 @@ export default function DashboardSidebar() {
         <ArrowLeft className="w-3 h-3" /> View Site
       </Link>
 
-      <Link
-        href="/api/auth/logout"
-        className="flex items-center gap-2 px-3 py-2 rounded text-sm text-[#a09a95] hover:text-[#ef4444] transition-colors mt-1"
+      <button
+        onClick={handleLogout}
+        className="flex items-center gap-2 px-3 py-2 rounded text-sm text-[#a09a95] hover:text-[#ef4444] transition-colors mt-1 w-full text-left cursor-pointer bg-transparent border-none"
       >
         <LogOut className="w-4 h-4" /> Logout
-      </Link>
+      </button>
     </aside>
   );
 }

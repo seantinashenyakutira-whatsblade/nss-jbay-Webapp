@@ -1,23 +1,31 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
+import { sanitizeInput, validateEmail } from "@/lib/sanitize";
 
 export async function POST(request: NextRequest) {
-  const supabase = await createClient();
-  const formData = await request.formData();
-  const email = formData.get("email") as string;
+  try {
+    const body = await request.json();
+    const email = sanitizeInput(body.email || "");
 
-  if (!email) {
-    return NextResponse.redirect(new URL("/auth/forgot-password?error=Email is required", request.url));
+    if (!email) {
+      return NextResponse.json({ error: "Email is required" }, { status: 400 });
+    }
+
+    if (!validateEmail(email)) {
+      return NextResponse.json({ error: "Invalid email format" }, { status: 400 });
+    }
+
+    const supabase = await createClient();
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${request.nextUrl.origin}/auth/reset-password`,
+    });
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+
+    return NextResponse.json({ success: true, message: "Check your email for the reset link" });
+  } catch {
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
-
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${request.nextUrl.origin}/auth/reset-password`,
-  });
-
-  if (error) {
-    console.error("Password reset error:", error);
-    return NextResponse.redirect(new URL(`/auth/forgot-password?error=${encodeURIComponent(error.message)}`, request.url));
-  }
-
-  return NextResponse.redirect(new URL("/auth/forgot-password?success=Check your email for reset link", request.url));
 }

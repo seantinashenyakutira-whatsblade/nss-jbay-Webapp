@@ -1,48 +1,59 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
+import { sanitizeInput } from "@/lib/sanitize";
 
 export async function POST(request: NextRequest) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.redirect(new URL("/auth/login", request.url));
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { data: profile } = await supabase.from("profiles").select("is_admin").eq("id", user.id).single();
-  if (!profile?.is_admin) return NextResponse.redirect(new URL("/dashboard", request.url));
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("is_admin")
+      .eq("id", user.id)
+      .single();
 
-  const formData = await request.formData();
-  const name = formData.get("name") as string;
-  const size = formData.get("size") as string;
-  const sqm = parseInt(formData.get("sqm") as string);
-  const dimensions = formData.get("dimensions") as string;
-  const price_monthly = parseInt(formData.get("price_monthly") as string);
-  const price_annual = formData.get("price_annual") ? parseInt(formData.get("price_annual") as string) : null;
-  const description = formData.get("description") as string;
-  const block_section = formData.get("block_section") as string;
-  const availability = formData.get("availability") as string || "available";
-  const features = formData.getAll("features") as string[];
+    if (!profile?.is_admin) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
 
-  if (!name || !size || !sqm || !dimensions || !price_monthly) {
-    return NextResponse.redirect(new URL("/admin/units/new?error=Missing required fields", request.url));
+    const body = await request.json();
+    const name = sanitizeInput(body.name || "");
+    const size = body.size;
+    const sqm = parseInt(body.sqm);
+    const dimensions = sanitizeInput(body.dimensions || "");
+    const price_monthly = parseInt(body.price_monthly);
+    const price_annual = body.price_annual ? parseInt(body.price_annual) : null;
+    const description = sanitizeInput(body.description || "");
+    const block_section = sanitizeInput(body.block_section || "");
+    const availability = body.availability || "available";
+    const features = Array.isArray(body.features) ? body.features : [];
+
+    if (!name || !size || isNaN(sqm) || !dimensions || isNaN(price_monthly)) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    const { error } = await supabase.from("units").insert({
+      name,
+      size,
+      sqm,
+      dimensions,
+      price_monthly,
+      price_annual,
+      description,
+      block_section,
+      availability,
+      features: features.length > 0 ? features : null,
+      is_active: true,
+    });
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+
+    return NextResponse.json({ success: true, message: "Unit created" });
+  } catch {
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
-
-  const { error } = await supabase.from("units").insert({
-    name,
-    size,
-    sqm,
-    dimensions,
-    price_monthly,
-    price_annual,
-    description,
-    block_section,
-    availability,
-    features: features.length > 0 ? features : null,
-    is_active: true,
-  });
-
-  if (error) {
-    console.error("Failed to create unit:", error);
-    return NextResponse.redirect(new URL("/admin/units/new?error=Failed to create unit", request.url));
-  }
-
-  return NextResponse.redirect(new URL("/admin/units?success=Unit created", request.url));
 }

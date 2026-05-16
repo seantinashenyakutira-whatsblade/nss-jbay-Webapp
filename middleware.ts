@@ -1,5 +1,6 @@
-﻿import { createServerClient } from "@supabase/ssr";
+﻿import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { checkRateLimit } from "./lib/rate-limit";
 
 const PROTECTED_ROUTES = [
   "/dashboard",
@@ -9,8 +10,29 @@ const PROTECTED_ROUTES = [
   "/admin",
 ];
 
+const API_RATE_LIMITS: Record<string, string> = {
+  "/api/auth/login": "auth",
+  "/api/auth/register": "auth",
+  "/api/auth/reset-password": "auth",
+  "/api/contact": "contact",
+  "/api/bookings": "bookings",
+};
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Rate limit API routes
+  for (const [prefix, category] of Object.entries(API_RATE_LIMITS)) {
+    if (pathname.startsWith(prefix) && request.method !== "GET") {
+      const result = checkRateLimit(request, category);
+      if (!result.allowed) {
+        return NextResponse.json(
+          { error: "Too many requests. Please try again later." },
+          { status: 429, headers: { "Retry-After": String(Math.ceil((result.resetAt - Date.now()) / 1000)) } }
+        );
+      }
+    }
+  }
 
   const isProtectedRoute = PROTECTED_ROUTES.some(
     (route) => pathname === route || pathname.startsWith(`${route}/`)
@@ -58,7 +80,7 @@ function createMiddlewareClient(request: NextRequest) {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options?: CookieOptions }[]) {
           cookiesToSet.forEach(({ name, value, options }) => {
             request.cookies.set(name, value);
             response.cookies.set(name, value, options);

@@ -1,12 +1,37 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { Menu, X, ChevronDown, LogOut, LayoutDashboard } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Menu, X, ChevronDown, LogOut, LayoutDashboard, User } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import type { Session } from "@supabase/supabase-js";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const supabase = createClient();
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    window.location.href = "/";
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A]/85 backdrop-blur-md border-b border-[#2a2a2a]">
@@ -40,9 +65,21 @@ export default function Navbar() {
               </div>
             )}
           </div>
-          <Link href="/dashboard" className="btn btn--outline btn--sm">
-            <LayoutDashboard className="w-4 h-4" /> My Account
-          </Link>
+
+          {!loading && session ? (
+            <div className="flex items-center gap-3">
+              <Link href="/dashboard" className="btn btn--outline btn--sm">
+                <LayoutDashboard className="w-4 h-4" /> Dashboard
+              </Link>
+              <button onClick={handleLogout} className="btn btn--ghost btn--sm">
+                <LogOut className="w-4 h-4" /> Logout
+              </button>
+            </div>
+          ) : (
+            <Link href="/auth/login" className="btn btn--primary btn--sm">
+              <User className="w-4 h-4" /> Login
+            </Link>
+          )}
         </nav>
 
         <button className="md:hidden p-2 text-[#a09a95]" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle menu">
@@ -63,7 +100,14 @@ export default function Navbar() {
             <Link href="/privacy" className="block py-2 pl-6 text-sm text-[#a09a95]" onClick={() => setMobileOpen(false)}>Privacy Policy</Link>
             <Link href="/refund-policy" className="block py-2 pl-6 text-sm text-[#a09a95]" onClick={() => setMobileOpen(false)}>Refund Policy</Link>
             <div className="border-t border-[#2a2a2a] my-2" />
-            <Link href="/dashboard" className="block py-2 text-sm text-[#D4006A] font-medium" onClick={() => setMobileOpen(false)}>My Account</Link>
+            {!loading && session ? (
+              <>
+                <Link href="/dashboard" className="block py-2 text-sm text-[#D4006A] font-medium" onClick={() => setMobileOpen(false)}>Dashboard</Link>
+                <button onClick={() => { handleLogout(); setMobileOpen(false); }} className="block py-2 text-sm text-[#a09a95] hover:text-[#ef4444]">Logout</button>
+              </>
+            ) : (
+              <Link href="/auth/login" className="block py-2 text-sm text-[#D4006A] font-medium" onClick={() => setMobileOpen(false)}>Login</Link>
+            )}
           </div>
         </div>
       )}
