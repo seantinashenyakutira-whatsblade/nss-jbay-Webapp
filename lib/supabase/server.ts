@@ -1,4 +1,4 @@
-﻿import { createServerClient } from "@supabase/ssr";
+import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 export async function createClient() {
@@ -12,10 +12,9 @@ export async function createClient() {
         getAll() {
           return cookieStore.getAll();
         },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          );
+        setAll() {
+          // No-op: cookies can only be modified in Server Actions or Route Handlers in Next.js 14.2+
+          // Cookie updates are handled by middleware and API routes
         },
       },
     }
