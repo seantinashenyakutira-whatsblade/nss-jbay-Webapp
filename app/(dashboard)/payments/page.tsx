@@ -9,19 +9,25 @@ export default async function PaymentsPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) { redirect("/auth/login?redirect=/payments&domain=hub"); return; }
 
-  const { data: payments } = await supabase
+  const { data: payments, error: paymentsError } = await supabase
     .from("payments")
     .select("*, bookings(reference, units(name))")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
 
-  const { data: allPayments } = await supabase
+  if (paymentsError) console.error("Failed to fetch payments:", paymentsError);
+
+  const { data: allPayments, error: allPaymentsError } = await supabase
     .from("payments")
     .select("amount")
     .eq("user_id", user.id)
     .eq("status", "completed");
 
-  const totalSpent = (allPayments || []).reduce((sum: number, p: any) => sum + parseFloat(p.amount), 0);
+  if (allPaymentsError) console.error("Failed to fetch payment totals:", allPaymentsError);
+
+  const safePayments = payments || [];
+  const safeAllPayments = allPayments || [];
+  const totalSpent = safeAllPayments.reduce((sum: number, p: any) => sum + (parseFloat(p.amount) || 0), 0);
 
   const badgeMap: Record<string, "success" | "warning" | "error" | "info"> = {
     pending: "warning", completed: "success", failed: "error", refunded: "info",
@@ -40,7 +46,7 @@ export default async function PaymentsPage() {
         </div>
       </div>
 
-      {payments && payments.length > 0 ? (
+      {safePayments.length > 0 ? (
         <div className="overflow-x-auto bg-[#1a1a1a] border border-[#2a2a2a] rounded-md">
           <table className="w-full">
             <thead>
@@ -51,7 +57,7 @@ export default async function PaymentsPage() {
               </tr>
             </thead>
             <tbody>
-              {payments.map((p: any) => (
+              {safePayments.map((p: any) => (
                 <tr key={p.id} className="border-b border-[#2a2a2a] last:border-b-0 hover:bg-[#111]">
                   <td className="px-5 py-3.5 text-sm text-[#a09a95]">{formatDate(p.created_at)}</td>
                   <td className="px-5 py-3.5 font-mono text-sm text-[#a09a95]">{p.reference}</td>

@@ -15,28 +15,34 @@ export default async function DashboardPage() {
     return;
   }
 
-  const { data: bookings } = await supabase
+  const { data: bookings, error: bookingsError } = await supabase
     .from("bookings")
     .select("*, units(*)")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
     .limit(10);
 
-  const { data: payments } = await supabase
+  if (bookingsError) console.error("Failed to fetch bookings:", bookingsError);
+
+  const { data: payments, error: paymentsError } = await supabase
     .from("payments")
     .select("amount")
     .eq("user_id", user.id)
     .eq("status", "completed");
 
-  const activeRentals = (bookings || []).filter((b: any) => b.status === "active").length;
-  const totalSpent = (payments || []).reduce((sum: number, p: any) => sum + parseFloat(p.amount), 0);
+  if (paymentsError) console.error("Failed to fetch payments:", paymentsError);
 
-  const nextPaymentBooking = (bookings || []).find((b: any) => b.status === "active");
-  const nextPayment = nextPaymentBooking ? parseFloat(nextPaymentBooking.total_amount) : 0;
+  const safeBookings = bookings || [];
+  const safePayments = payments || [];
+  const activeRentals = safeBookings.filter((b: any) => b.status === "active").length;
+  const totalSpent = safePayments.reduce((sum: number, p: any) => sum + (parseFloat(p.amount) || 0), 0);
 
-  const recentActivity = (bookings || []).slice(0, 5).map((b: any) => ({
+  const nextPaymentBooking = safeBookings.find((b: any) => b.status === "active");
+  const nextPayment = nextPaymentBooking ? parseFloat(nextPaymentBooking.total_amount || 0) : 0;
+
+  const recentActivity = safeBookings.slice(0, 5).map((b: any) => ({
     date: b.created_at,
-    description: `${b.status === "cancelled" ? "Cancelled" : "Booked"} ${b.units?.name || "Unit"} (${b.reference})`,
+    description: `${b.status === "cancelled" ? "Cancelled" : "Booked"} ${b.units?.name || "Unit"} (${b.reference || "N/A"})`,
     status: b.status,
   }));
 

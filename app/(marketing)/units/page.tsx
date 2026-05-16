@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import UnitCard from "@/components/marketing/UnitCard";
-import { Search, SearchX } from "lucide-react";
+import { Search, SearchX, AlertTriangle } from "lucide-react";
 
 interface UnitsPageProps {
   searchParams: { size?: string; availability?: string };
@@ -24,7 +24,29 @@ export default async function UnitsPage({ searchParams }: UnitsPageProps) {
     query = query.eq("availability", availability);
   }
 
-  const { data: units } = await query;
+  const { data: units, error } = await query;
+
+  if (error) {
+    console.error("Failed to fetch units:", error);
+    return (
+      <section className="page">
+        <div className="container">
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
+            <div>
+              <h1 className="page__title text-5xl">BROWSE &amp; BOOK</h1>
+              <p className="page__subtitle">Storage units</p>
+            </div>
+          </div>
+          <div className="empty-state">
+            <div className="empty-state__icon"><AlertTriangle className="w-16 h-16 mx-auto text-[#f59e0b]" /></div>
+            <h3 className="empty-state__title">Unable to load units</h3>
+            <p className="empty-state__text">Something went wrong. Please try again later or contact support if the issue persists.</p>
+            <a href="/units" className="btn btn--primary">Try Again</a>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="page">

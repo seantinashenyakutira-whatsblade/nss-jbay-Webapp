@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect, notFound } from "next/navigation";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { ArrowLeft, CheckCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle, AlertTriangle } from "lucide-react";
 import { formatDate, formatCurrency, formatDateLong } from "@/lib/utils";
 
 interface BookingDetailPageProps {
@@ -14,21 +14,41 @@ export default async function BookingDetailPage({ params }: BookingDetailPagePro
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) { redirect("/auth/login?redirect=/bookings&domain=hub"); return; }
 
-  const { data: booking } = await supabase
+  const { data: booking, error: bookingError } = await supabase
     .from("bookings")
     .select("*, units(*)")
     .eq("id", params.id)
     .single();
 
+  if (bookingError) {
+    console.error("Failed to fetch booking:", bookingError);
+    return (
+      <div>
+        <a href="/bookings" className="inline-flex items-center gap-1.5 text-sm text-[#a09a95] hover:text-white mb-6 transition-colors">
+          <ArrowLeft className="w-4 h-4" /> Back to My Bookings
+        </a>
+        <div className="empty-state">
+          <div className="empty-state__icon"><AlertTriangle className="w-16 h-16 mx-auto text-[#f59e0b]" /></div>
+          <h3 className="empty-state__title">Unable to load booking details</h3>
+          <p className="empty-state__text">Something went wrong. Please try again later.</p>
+          <a href="/bookings" className="btn btn--primary">Back to Bookings</a>
+        </div>
+      </div>
+    );
+  }
+
   if (!booking || (booking.user_id !== user.id && !user.user_metadata?.is_admin)) {
     notFound();
   }
 
-  const { data: payments } = await supabase
+  const { data: payments, error: paymentsError } = await supabase
     .from("payments")
     .select("*")
     .eq("booking_id", params.id)
     .order("created_at", { ascending: false });
+
+  if (paymentsError) console.error("Failed to fetch payments:", paymentsError);
+  const safePayments = payments || [];
 
   const badgeMap: Record<string, "success" | "info" | "error"> = {
     active: "success", completed: "info", cancelled: "error", expired: "error",
@@ -94,11 +114,11 @@ export default async function BookingDetailPage({ params }: BookingDetailPagePro
         </div>
       </div>
 
-      {payments && payments.length > 0 && (
+      {safePayments.length > 0 && (
         <div className="card card--static rounded-md mb-6">
           <div className="card__body">
             <h4 className="text-lg mb-3">Payment History</h4>
-            {payments.map((p: any) => {
+            {safePayments.map((p: any) => {
               const pMap: Record<string, "success" | "warning" | "error" | "info"> = {
                 pending: "warning", completed: "success", failed: "error", refunded: "info",
               };

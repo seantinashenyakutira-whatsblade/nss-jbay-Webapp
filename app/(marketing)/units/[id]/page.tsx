@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { ArrowLeft, CheckCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle, AlertTriangle } from "lucide-react";
 
 interface UnitDetailPageProps {
   params: { id: string };
@@ -10,11 +10,30 @@ interface UnitDetailPageProps {
 
 export default async function UnitDetailPage({ params }: UnitDetailPageProps) {
   const supabase = await createClient();
-  const { data: unit } = await supabase
+  const { data: unit, error } = await supabase
     .from("units")
     .select("*")
     .eq("id", params.id)
     .single();
+
+  if (error) {
+    console.error("Failed to fetch unit:", error);
+    return (
+      <section className="page">
+        <div className="container" style={{ maxWidth: 760 }}>
+          <a href="/units" className="inline-flex items-center gap-1.5 text-sm text-[#a09a95] hover:text-white mb-6 transition-colors">
+            <ArrowLeft className="w-4 h-4" /> Back to Units
+          </a>
+          <div className="empty-state">
+            <div className="empty-state__icon"><AlertTriangle className="w-16 h-16 mx-auto text-[#f59e0b]" /></div>
+            <h3 className="empty-state__title">Unable to load unit details</h3>
+            <p className="empty-state__text">Something went wrong. Please try again later.</p>
+            <a href="/units" className="btn btn--primary">Browse All Units</a>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (!unit) notFound();
 

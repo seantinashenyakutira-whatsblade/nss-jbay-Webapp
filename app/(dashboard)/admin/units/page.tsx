@@ -9,14 +9,17 @@ export default async function AdminUnitsPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/auth/login?redirect=/admin/units&domain=hub");
 
-  const { data: units } = await supabase.from("units").select("*").order("sqm", { ascending: true });
+  const { data: units, error } = await supabase.from("units").select("*").order("sqm", { ascending: true });
+  if (error) console.error("Failed to fetch units:", error);
+
+  const safeUnits = units || [];
 
   return (
     <div>
       <div className="flex items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-4xl mb-1">Manage Units</h1>
-          <p className="text-sm text-[#a09a95]">{units?.length || 0} units</p>
+          <p className="text-sm text-[#a09a95]">{safeUnits.length} units</p>
         </div>
         <Button href="/admin/units/new" variant="primary">Add New Unit</Button>
       </div>
@@ -31,7 +34,7 @@ export default async function AdminUnitsPage() {
             </tr>
           </thead>
           <tbody>
-            {units?.map((u: any) => (
+            {safeUnits?.map((u: any) => (
               <tr key={u.id} className="border-b border-[#2a2a2a] last:border-b-0 hover:bg-[#111]">
                 <td className="px-5 py-3.5 text-sm text-white">{u.name}</td>
                 <td className="px-5 py-3.5 text-sm text-[#a09a95] capitalize">{u.size} ({u.sqm} m²)</td>
@@ -56,7 +59,7 @@ export default async function AdminUnitsPage() {
                 </td>
               </tr>
             ))}
-            {(!units || units.length === 0) && (
+            {safeUnits.length === 0 && (
               <tr><td colSpan={7} className="text-center text-sm text-[#6b6560] py-8">No units found</td></tr>
             )}
           </tbody>

@@ -8,14 +8,20 @@ export default async function AdminDashboardPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/auth/login?redirect=/admin&domain=hub");
 
-  const { data: profile } = await supabase.from("profiles").select("is_admin").eq("id", user!.id).single();
+  const { data: profile, error: profileError } = await supabase.from("profiles").select("is_admin").eq("id", user!.id).single();
+  if (profileError) console.error("Failed to fetch profile:", profileError);
   if (!profile?.is_admin) redirect("/dashboard");
 
-  const { data: bookings } = await supabase.from("bookings").select("*");
-  const { data: pendingPayments } = await supabase.from("payments").select("amount").eq("status", "pending");
+  const { data: bookings, error: bookingsError } = await supabase.from("bookings").select("*");
+  if (bookingsError) console.error("Failed to fetch bookings:", bookingsError);
 
-  const totalBookings = bookings?.length || 0;
-  const monthlyRevenue = (pendingPayments || []).reduce((s: number, p: any) => s + parseFloat(p.amount), 0);
+  const { data: pendingPayments, error: paymentsError } = await supabase.from("payments").select("amount").eq("status", "pending");
+  if (paymentsError) console.error("Failed to fetch payments:", paymentsError);
+
+  const safeBookings = bookings || [];
+  const safePendingPayments = pendingPayments || [];
+  const totalBookings = safeBookings.length;
+  const monthlyRevenue = safePendingPayments.reduce((s: number, p: any) => s + (parseFloat(p.amount) || 0), 0);
 
   return (
     <div>

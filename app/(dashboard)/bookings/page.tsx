@@ -12,11 +12,15 @@ export default async function BookingsPage() {
     return;
   }
 
-  const { data: bookings } = await supabase
+  const { data: bookings, error } = await supabase
     .from("bookings")
     .select("*, units(*)")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
+
+  if (error) console.error("Failed to fetch bookings:", error);
+
+  const safeBookings = bookings || [];
 
   return (
     <div>
@@ -35,14 +39,14 @@ export default async function BookingsPage() {
             className={`tab-btn px-4 py-3 text-sm text-[#6b6560] border-b-2 border-transparent hover:text-[#a09a95] transition-colors whitespace-nowrap ${tab === "all" ? "!text-[#D4006A] !border-[#D4006A]" : ""}`}
             data-tab={tab}
           >
-            {tab.charAt(0).toUpperCase() + tab.slice(1)} ({bookings?.filter((b: any) => tab === "all" || b.status === tab || (tab === "cancelled" && b.status === "expired")).length || 0})
+            {tab.charAt(0).toUpperCase() + tab.slice(1)} ({safeBookings.filter((b: any) => tab === "all" || b.status === tab || (tab === "cancelled" && b.status === "expired")).length || 0})
           </button>
         ))}
       </div>
 
-      {bookings && bookings.length > 0 ? (
+      {safeBookings.length > 0 ? (
         <div id="rental-cards-list">
-          {bookings.map((booking: any) => (
+          {safeBookings.map((booking: any) => (
             <RentalCard key={booking.id} booking={booking} />
           ))}
         </div>
