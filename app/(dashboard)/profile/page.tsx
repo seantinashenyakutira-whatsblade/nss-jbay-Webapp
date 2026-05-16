@@ -122,7 +122,7 @@ export default function ProfilePage() {
 
   return (
     <div>
-      <h1 className="text-4xl mb-8">My Profile</h1>
+      <h1 className="text-2xl sm:text-3xl md:text-4xl mb-6 md:mb-8">My Profile</h1>
       {message && (
         <div className={`mb-4 p-3 rounded text-sm ${message.startsWith("success") ? "bg-[rgba(34,197,94,0.1)] border border-[rgba(34,197,94,0.3)] text-[#22c55e]" : "bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.3)] text-[#ef4444]"}`}>
           {message.split("|")[1]}
@@ -131,7 +131,7 @@ export default function ProfilePage() {
       <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-md p-6 mb-8" style={{ maxWidth: 640 }}>
         <h4 className="text-lg mb-5">Personal Information</h4>
         <form onSubmit={handleSave} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label htmlFor="firstName" className="block text-sm font-mono text-[#6b6560] uppercase tracking-wider mb-1.5">First Name <span className="text-[#ef4444]">*</span></label>
               <input type="text" id="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2a2a2a] rounded text-sm text-white outline-none focus:border-[#D4006A] transition-colors" required />

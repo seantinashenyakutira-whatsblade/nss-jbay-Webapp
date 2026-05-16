@@ -68,7 +68,7 @@ export default function ResetPasswordPage() {
   return (
     <section className="min-h-screen flex items-center justify-center py-24 px-4">
       <div className="w-full max-w-[460px] bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-8">
-        <h1 className="text-3xl text-center mb-4">Set New Password</h1>
+        <h1 className="text-2xl sm:text-3xl text-center mb-4">Set New Password</h1>
         <p className="text-sm text-[#a09a95] text-center mb-8">Choose a new password for your account</p>
 
         {error && (

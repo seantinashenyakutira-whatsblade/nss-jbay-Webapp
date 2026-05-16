@@ -48,9 +48,9 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 md:mb-8">
         <div>
-          <h1 className="text-4xl mb-1">Welcome back, {user.user_metadata?.first_name || user.email?.split("@")[0] || "Guest"}</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl mb-1">Welcome back, {user.user_metadata?.first_name || user.email?.split("@")[0] || "Guest"}</h1>
           <p className="text-[#a09a95]">Here&apos;s an overview of your account</p>
         </div>
         <a href="/units" className="btn btn--primary">Rent New Unit</a>
@@ -63,7 +63,7 @@ export default async function DashboardPage() {
         <StatsCard value="Active" label="Account Status" color="#22c55e" />
       </div>
 
-      <div className="grid grid--2 gap-6 mt-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
         <div className="card card--static rounded-md">
           <div className="card__body">
             <div className="flex items-center justify-between mb-4">
@@ -85,7 +85,7 @@ export default async function DashboardPage() {
       <div className="card card--static rounded-md mt-6">
         <div className="card__body">
           <h4 className="text-lg mb-4">Account Info</h4>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             <div>
               <span className="font-mono text-xs text-[#6b6560] uppercase">Name</span>
               <p className="text-sm text-white mt-1">{user.user_metadata?.first_name || ""} {user.user_metadata?.last_name || ""}</p>

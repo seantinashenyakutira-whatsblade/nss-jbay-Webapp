@@ -121,7 +121,7 @@ function BookingForm() {
           <ArrowLeft className="w-4 h-4" /> Back to Units
         </a>
 
-        <h1 className="text-4xl mb-2">New Booking</h1>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl mb-2">New Booking</h1>
         <p className="text-[#a09a95] mb-8">Select your unit and rental period</p>
 
         {error && (

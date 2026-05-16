@@ -35,37 +35,37 @@ export default async function PaymentsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 md:mb-8">
         <div>
-          <h1 className="text-4xl mb-1">Payment History</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl mb-1">Payment History</h1>
           <p className="text-[#a09a95]">View all your past payments</p>
         </div>
         <div className="text-right">
           <p className="text-sm text-[#a09a95]">Total Spent</p>
-          <p className="text-2xl font-heading text-[#D4006A]">{formatCurrency(totalSpent)}</p>
+          <p className="text-xl sm:text-2xl font-heading text-[#D4006A]">{formatCurrency(totalSpent)}</p>
         </div>
       </div>
 
       {safePayments.length > 0 ? (
         <div className="overflow-x-auto bg-[#1a1a1a] border border-[#2a2a2a] rounded-md">
-          <table className="w-full">
+          <table className="w-full min-w-[640px]">
             <thead>
               <tr>
                 {["Date", "Reference", "Booking", "Amount", "Status", "Card", "Invoice"].map((h) => (
-                  <th key={h} className="px-5 py-3.5 text-left font-mono text-xs text-[#6b6560] uppercase tracking-wider bg-[#111] border-b border-[#2a2a2a]">{h}</th>
+                  <th key={h} className="px-4 py-3.5 text-left font-mono text-xs text-[#6b6560] uppercase tracking-wider bg-[#111] border-b border-[#2a2a2a]">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {safePayments.map((p: any) => (
                 <tr key={p.id} className="border-b border-[#2a2a2a] last:border-b-0 hover:bg-[#111]">
-                  <td className="px-5 py-3.5 text-sm text-[#a09a95]">{formatDate(p.created_at)}</td>
-                  <td className="px-5 py-3.5 font-mono text-sm text-[#a09a95]">{p.reference}</td>
-                  <td className="px-5 py-3.5 text-sm text-[#a09a95]">{p.bookings?.reference || "Storage Rental"}</td>
-                  <td className="px-5 py-3.5 font-heading text-sm text-[#D4006A]">{formatCurrency(p.amount)}</td>
-                  <td className="px-5 py-3.5"><Badge variant={badgeMap[p.status] || "info"}>{p.status.charAt(0).toUpperCase() + p.status.slice(1)}</Badge></td>
-                  <td className="px-5 py-3.5 text-sm text-[#a09a95]">{p.card_brand ? `${p.card_brand.charAt(0).toUpperCase() + p.card_brand.slice(1)} ****${p.card_last_four || ""}` : "—"}</td>
-                  <td className="px-5 py-3.5">
+                  <td className="px-4 py-3.5 text-sm text-[#a09a95]">{formatDate(p.created_at)}</td>
+                  <td className="px-4 py-3.5 font-mono text-sm text-[#a09a95]">{p.reference}</td>
+                  <td className="px-4 py-3.5 text-sm text-[#a09a95]">{p.bookings?.reference || "Storage Rental"}</td>
+                  <td className="px-4 py-3.5 font-heading text-sm text-[#D4006A]">{formatCurrency(p.amount)}</td>
+                  <td className="px-4 py-3.5"><Badge variant={badgeMap[p.status] || "info"}>{p.status.charAt(0).toUpperCase() + p.status.slice(1)}</Badge></td>
+                  <td className="px-4 py-3.5 text-sm text-[#a09a95]">{p.card_brand ? `${p.card_brand.charAt(0).toUpperCase() + p.card_brand.slice(1)} ****${p.card_last_four || ""}` : "—"}</td>
+                  <td className="px-4 py-3.5">
                     <a href={`/api/payments/${p.id}/invoice`} className="btn btn--ghost btn--sm" title="Download Invoice" target="_blank">
                       <Download className="w-3.5 h-3.5" />
                     </a>

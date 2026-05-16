@@ -117,7 +117,7 @@ function LoginForm() {
           </form>
         ) : (
           <form onSubmit={handleRegister} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="regFirstName" className="block text-sm font-mono text-[#6b6560] uppercase tracking-wider mb-1.5">First Name <span className="text-[#ef4444]">*</span></label>
                 <input type="text" id="regFirstName" name="firstName" className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2a2a2a] rounded text-sm text-white outline-none focus:border-[#D4006A] transition-colors" placeholder="John" required />
@@ -131,7 +131,7 @@ function LoginForm() {
               <label htmlFor="regEmail" className="block text-sm font-mono text-[#6b6560] uppercase tracking-wider mb-1.5">Email <span className="text-[#ef4444]">*</span></label>
               <input type="email" id="regEmail" name="email" className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2a2a2a] rounded text-sm text-white outline-none focus:border-[#D4006A] transition-colors" placeholder="your@email.com" required autoComplete="email" />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="regPassword" className="block text-sm font-mono text-[#6b6560] uppercase tracking-wider mb-1.5">Password <span className="text-[#ef4444]">*</span></label>
                 <input type="password" id="regPassword" name="password" className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2a2a2a] rounded text-sm text-white outline-none focus:border-[#D4006A] transition-colors" placeholder="Min. 8 characters" required minLength={8} autoComplete="new-password" />

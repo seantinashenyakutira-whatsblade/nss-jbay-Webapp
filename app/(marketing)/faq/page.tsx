@@ -54,7 +54,7 @@ export default function FAQPage() {
     <section className="page">
       <div className="container">
         <div className="section__header">
-          <h1 className="text-5xl">Frequently Asked Questions</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl">Frequently Asked Questions</h1>
           <p className="section__subtitle">Everything you need to know about our storage</p>
         </div>
 
@@ -78,7 +78,7 @@ export default function FAQPage() {
           ))}
         </div>
 
-        <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-md p-6 text-center mt-8" style={{ maxWidth: 480, margin: "2rem auto" }}>
+        <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-md p-6 text-center mt-8 w-full max-w-[480px] mx-auto">
           <h4 className="text-xl mb-2">Still have questions?</h4>
           <p className="text-sm text-[#a09a95] mb-4">Our team is happy to help with anything you need.</p>
           <Link href="/contact" className="btn btn--primary">Contact Us</Link>

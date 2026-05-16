@@ -1,9 +1,9 @@
 export default function RefundPolicyPage() {
   return (
     <section className="page">
-      <div className="container" style={{ maxWidth: 800 }}>
-        <div className="mb-10">
-          <h1 className="page__title text-5xl">Refund &amp; Cancellation Policy</h1>
+      <div className="container w-full" style={{ maxWidth: 800 }}>
+        <div className="mb-6 md:mb-10">
+          <h1 className="page__title text-3xl sm:text-4xl md:text-5xl">Refund &amp; Cancellation Policy</h1>
           <p className="text-sm text-[#6b6560] font-mono">Last updated: May 2025</p>
         </div>
         <div className="space-y-6 text-[#a09a95] leading-relaxed">

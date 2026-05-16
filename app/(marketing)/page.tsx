@@ -20,7 +20,7 @@ export default function HomePage() {
       <UnitGridSection />
       <section className="section bg-gradient-to-br from-[#D4006A] to-[#a00050]">
         <div className="container text-center">
-          <h2 className="text-[clamp(2.5rem,5vw,4rem)] text-white mb-3">READY TO GET STARTED?</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl text-white mb-3">READY TO GET STARTED?</h2>
           <p className="text-lg text-white/80 mb-8">Choose your unit, book online, and move in today.</p>
           <a href="/units" className="btn btn--outline btn--lg border-white/50 text-white hover:border-white hover:bg-white/10">
             Browse Available Units <ArrowRight className="w-4 h-4" />

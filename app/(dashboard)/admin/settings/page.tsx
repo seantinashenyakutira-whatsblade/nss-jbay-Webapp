@@ -114,7 +114,7 @@ export default function AdminSettingsPage() {
     <div>
       <div className="flex items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-4xl mb-1">Facility Settings</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl mb-1">Facility Settings</h1>
           <p className="text-sm text-[#a09a95]">Configure your storage facility information</p>
         </div>
       </div>
@@ -137,7 +137,7 @@ export default function AdminSettingsPage() {
               <label className="block text-sm font-mono text-[#6b6560] uppercase tracking-wider mb-1.5">Address</label>
               <input type="text" value={settings.address} onChange={(e) => updateField("address", e.target.value)} className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2a2a2a] rounded text-sm text-white outline-none focus:border-[#D4006A] transition-colors" />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-mono text-[#6b6560] uppercase tracking-wider mb-1.5">Phone 1</label>
                 <input type="tel" value={settings.phone_primary} onChange={(e) => updateField("phone_primary", e.target.value)} className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2a2a2a] rounded text-sm text-white outline-none focus:border-[#D4006A] transition-colors" />

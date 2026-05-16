@@ -28,7 +28,7 @@ export default function FeaturesSection() {
     <section className="section" id="how-it-works">
       <div className="container">
         <div className="section__header">
-          <h2 className="text-4xl md:text-5xl mb-2">Why Choose Us</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl mb-2">Why Choose Us</h2>
           <p className="section__subtitle">We make storage simple, secure, and affordable</p>
         </div>
         <div className="grid grid--4">

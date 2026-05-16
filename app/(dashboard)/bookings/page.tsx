@@ -24,9 +24,9 @@ export default async function BookingsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 md:mb-8">
         <div>
-          <h1 className="text-4xl mb-1">My Rentals</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl mb-1">My Rentals</h1>
           <p className="text-[#a09a95]">Manage your active and past storage rentals</p>
         </div>
         <a href="/units" className="btn btn--primary">Rent Another Unit</a>

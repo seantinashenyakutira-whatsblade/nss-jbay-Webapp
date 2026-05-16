@@ -13,7 +13,7 @@ export default function UnitGridSection() {
     <section className="section section--alt">
       <div className="container">
         <div className="section__header">
-          <h2 className="text-4xl md:text-5xl">Our Unit Sizes</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl">Our Unit Sizes</h2>
           <p className="section__subtitle">Find the perfect space for your needs</p>
         </div>
         <div className="grid grid--2 gap-4">
@@ -21,10 +21,10 @@ export default function UnitGridSection() {
             <Link
               key={u.query}
               href={`/units?size=${u.query}`}
-              className="flex flex-col justify-between p-8 bg-[#1a1a1a] border border-[#2a2a2a] rounded-md hover:border-[#D4006A] hover:-translate-y-0.5 transition-all group min-h-[180px]"
+              className="flex flex-col justify-between p-4 md:p-8 bg-[#1a1a1a] border border-[#2a2a2a] rounded-md hover:border-[#D4006A] hover:-translate-y-0.5 transition-all group min-h-[140px] md:min-h-[180px]"
             >
               <div>
-                <div className="font-heading text-3xl text-white mb-1">{u.size}</div>
+                <div className="font-heading text-2xl md:text-3xl text-white mb-1">{u.size}</div>
                 <div className="text-sm text-[#a09a95] mb-3">{u.sqm} m² · {u.dims}</div>
                 <div className="font-heading text-2xl text-[#D4006A]">
                   {u.price} <span className="text-sm text-[#6b6560] font-body">/month</span>

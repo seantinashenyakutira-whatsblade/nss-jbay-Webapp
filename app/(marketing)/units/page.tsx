@@ -33,7 +33,7 @@ export default async function UnitsPage({ searchParams }: UnitsPageProps) {
         <div className="container">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
             <div>
-              <h1 className="page__title text-5xl">BROWSE &amp; BOOK</h1>
+              <h1 className="page__title text-3xl sm:text-4xl md:text-5xl">BROWSE &amp; BOOK</h1>
               <p className="page__subtitle">Storage units</p>
             </div>
           </div>
@@ -51,9 +51,9 @@ export default async function UnitsPage({ searchParams }: UnitsPageProps) {
   return (
     <section className="page">
       <div className="container">
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-6 md:mb-10">
           <div>
-            <h1 className="page__title text-5xl">BROWSE &amp; BOOK</h1>
+            <h1 className="page__title text-3xl sm:text-4xl md:text-5xl">BROWSE &amp; BOOK</h1>
             <p className="page__subtitle">{units?.length || 0} unit{(units?.length || 0) !== 1 ? "s" : ""} available</p>
           </div>
           <div className="relative">

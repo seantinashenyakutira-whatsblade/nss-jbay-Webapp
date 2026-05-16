@@ -74,12 +74,12 @@ export default function ContactPage() {
   return (
     <section className="page">
       <div className="container">
-        <div className="text-center mb-10">
+        <div className="text-center mb-6 md:mb-10">
           <h1 className="page__title text-5xl">Contact Us</h1>
           <p className="page__subtitle">We&apos;d love to hear from you</p>
         </div>
 
-        <div className="grid grid--2 gap-12" style={{ maxWidth: 960, margin: "0 auto" }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12" style={{ maxWidth: 960, margin: "0 auto", width: "100%" }}>
           <form onSubmit={handleSubmit}>
             {formError && (
               <div className="mb-4 p-3 rounded bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.3)] text-sm text-[#ef4444]" role="alert">
@@ -96,7 +96,7 @@ export default function ContactPage() {
                 <label htmlFor="contactName" className="block text-sm font-mono text-[#6b6560] uppercase tracking-wider mb-1.5">Name <span className="text-[#ef4444]">*</span></label>
                 <input type="text" id="contactName" value={name} onChange={(e) => setName(e.target.value)} className="w-full px-4 py-2.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded text-sm text-white outline-none focus:border-[#D4006A] transition-colors" placeholder="Your full name" required />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="contactEmail" className="block text-sm font-mono text-[#6b6560] uppercase tracking-wider mb-1.5">Email <span className="text-[#ef4444]">*</span></label>
                   <input type="email" id="contactEmail" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded text-sm text-white outline-none focus:border-[#D4006A] transition-colors" placeholder="your@email.com" required />

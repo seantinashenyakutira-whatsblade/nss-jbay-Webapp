@@ -21,7 +21,7 @@ export default async function UnitDetailPage({ params }: UnitDetailPageProps) {
     console.error("Failed to fetch unit:", error);
     return (
       <section className="page">
-        <div className="container" style={{ maxWidth: 760 }}>
+        <div className="container w-full" style={{ maxWidth: 760 }}>
           <a href="/units" className="inline-flex items-center gap-1.5 text-sm text-[#a09a95] hover:text-white mb-6 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Back to Units
           </a>
@@ -42,18 +42,18 @@ export default async function UnitDetailPage({ params }: UnitDetailPageProps) {
 
   return (
     <section className="page">
-      <div className="container" style={{ maxWidth: 760 }}>
+      <div className="container w-full" style={{ maxWidth: 760 }}>
         <a href="/units" className="inline-flex items-center gap-1.5 text-sm text-[#a09a95] hover:text-white mb-6 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Units
         </a>
 
         <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-md overflow-hidden mb-6">
-          <UnitImage unit={{ size: unit.size, name: unit.name }} width={800} height={400} className="h-[300px]" />
+          <UnitImage unit={{ size: unit.size, name: unit.name }} width={800} height={400} className="h-[200px] md:h-[300px]" />
         </div>
 
-        <div className="flex justify-between items-start flex-wrap gap-4 mb-8">
+        <div className="flex justify-between items-start flex-wrap gap-4 mb-6 md:mb-8">
           <div>
-            <h1 className="text-4xl mb-1">{unit.name}</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl mb-1">{unit.name}</h1>
             <p className="font-mono text-sm text-[#6b6560]">{unit.sqm} m² &mdash; {unit.dimensions}</p>
           </div>
           <Badge variant={badgeVariant as "success" | "warning" | "error"}>
@@ -61,8 +61,8 @@ export default async function UnitDetailPage({ params }: UnitDetailPageProps) {
           </Badge>
         </div>
 
-        <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-md p-6 mb-6">
-          <div className="card__price text-5xl">
+        <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-md p-4 md:p-6 mb-6">
+          <div className="card__price text-3xl sm:text-4xl md:text-5xl">
             R {Number(unit.price_monthly).toLocaleString("en-ZA")}
             <span className="card__price-label">/month</span>
           </div>
@@ -74,14 +74,14 @@ export default async function UnitDetailPage({ params }: UnitDetailPageProps) {
         </div>
 
         {unit.description && (
-          <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-md p-6 mb-6">
+          <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-md p-4 md:p-6 mb-6">
             <h4 className="text-lg mb-2">Description</h4>
             <p className="text-[#a09a95]" style={{ fontSize: "0.9375rem", lineHeight: 1.7 }}>{unit.description}</p>
           </div>
         )}
 
         {unit.features && unit.features.length > 0 && (
-          <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-md p-6 mb-6">
+          <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-md p-4 md:p-6 mb-6">
             <h4 className="text-lg mb-3">Features</h4>
             <div className="flex flex-wrap gap-2">
               {unit.features.map((f: string) => (
@@ -94,9 +94,9 @@ export default async function UnitDetailPage({ params }: UnitDetailPageProps) {
           </div>
         )}
 
-        <div className="flex gap-3">
-          <Button href={`/bookings/new?unit=${unit.id}`} variant="primary" size="lg">Book This Unit</Button>
-          <Button href="/units" variant="outline" size="lg">View All Units</Button>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Button href={`/bookings/new?unit=${unit.id}`} variant="primary" size="lg" block>Book This Unit</Button>
+          <Button href="/units" variant="outline" size="lg" block>View All Units</Button>
         </div>
       </div>
     </section>

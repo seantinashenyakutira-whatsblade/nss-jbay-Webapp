@@ -114,7 +114,7 @@ export function PaymentForm({ booking }: { booking: BookingData }) {
     return (
       <div className="text-center py-12">
         <div className="mb-4"><CheckCircle className="w-16 h-16 mx-auto text-[#22c55e]" /></div>
-        <h2 className="text-4xl font-heading text-[#22c55e] mb-2">Payment Successful!</h2>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading text-[#22c55e] mb-2">Payment Successful!</h2>
         <p className="text-[#a09a95] mb-6">Your booking is confirmed. Reference: <span className="font-mono text-[#D4006A]">{booking.reference}</span></p>
         <div className="mb-6 space-y-1">
           <p className="text-sm text-[#6b6560]">Amount paid: <span className="font-heading text-[#D4006A]">R {Number(booking.total_amount).toLocaleString("en-ZA")}</span></p>
@@ -134,9 +134,9 @@ export function PaymentForm({ booking }: { booking: BookingData }) {
         <ArrowLeft className="w-4 h-4" /> Back to My Bookings
       </a>
 
-      <div className="max-w-[560px]">
-        <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-8">
-          <h1 className="text-3xl mb-2">Complete Your Payment</h1>
+      <div className="w-full" style={{ maxWidth: 560 }}>
+        <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-4 md:p-8">
+          <h1 className="text-2xl sm:text-3xl mb-2">Complete Your Payment</h1>
           <p className="text-sm text-[#6b6560] mb-6">Booking: <span className="font-mono">{booking.reference}</span></p>
 
           <div className="bg-[#111] border border-[#2a2a2a] rounded-md p-4 mb-6 space-y-2">
@@ -190,7 +190,7 @@ export function PaymentForm({ booking }: { booking: BookingData }) {
                 {fieldErrors.cardName && <p className="text-xs text-[#ef4444] mt-1">{fieldErrors.cardName}</p>}
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="expiry" className="block text-sm font-mono text-[#6b6560] uppercase tracking-wider mb-1.5">Expiry (MM/YY) <span className="text-[#ef4444]">*</span></label>
                   <input type="text" id="expiry" value={expiry} onChange={(e) => setExpiry(formatExpiry(e.target.value))} className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2a2a2a] rounded text-sm text-white outline-none focus:border-[#D4006A] transition-colors" placeholder="MM/YY" maxLength={5} autoComplete="cc-exp" inputMode="numeric" required />
